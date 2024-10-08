@@ -17,6 +17,7 @@ public:
 	// Contact();
 	// ~Contact();
 
+	bool strIsDigit(const std::string& str);
 	// Getters
 	std::string getFirstName() const;
 	std::string getLastName() const;
@@ -35,7 +36,6 @@ public:
 	bool fillContactDetails();
     void displayDetails() const;
     std::string getShortString(const std::string &str) const;
-
 };
 
 #endif // CONTACT_CLASS_HPP

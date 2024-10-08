@@ -6,7 +6,7 @@
 /*   By: aang-shu <aang-shu.42singapore.sg>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/08 05:27:33 by aang-shu          #+#    #+#             */
-/*   Updated: 2024/10/08 05:27:33 by aang-shu         ###   ########.fr       */
+/*   Updated: 2024/10/08 19:03:53 by aang-shu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,3 +67,4 @@ void Phonebook:: searchContact() const {
 		std::cout << "Invalid index. Please try again." << std::endl;
 	}
 }
+

@@ -6,7 +6,7 @@
 #    By: aang-shu <aang-shu.42singapore.sg>         +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/09/11 18:05:37 by aang-shu          #+#    #+#              #
-#    Updated: 2024/10/08 04:38:05 by aang-shu         ###   ########.fr        #
+#    Updated: 2024/10/08 18:25:19 by aang-shu         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -37,7 +37,7 @@ MKDIR = mkdir -p
 #************************************************************************#
 # Source - paths annd filenames #
 #************************************************************************#
-SRCS = account.cpp
+SRCS = Account.cpp tests.cpp
 OBJ_DIR = ./obj/
 OBJS = $(addprefix $(OBJ_DIR), $(SRCS:%.cpp=%.o))
 DEPS = $(OBJS:.o=.d)

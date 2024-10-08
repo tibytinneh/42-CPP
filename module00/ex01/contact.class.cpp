@@ -11,6 +11,7 @@
 // Contact::~Contact(){
 // }
 
+
 // Getters
 std::string Contact::getFirstName() const{
     return this->_first_name;
@@ -44,7 +45,14 @@ void Contact::setPhoneNumber(const std::string &phone_number){
 void Contact::setDarkestSecret(const std::string &darkest_secret){
     this->_darkest_secret = darkest_secret;
 }
-
+bool Contact::strIsDigit(const std::string& str){
+    for (std::size_t i = 0; str[i] != '\0'; i++){
+        if (!std::isdigit(static_cast<unsigned char>(str[i]))){
+            return false; //non-digit found
+        }
+     }
+    return true; //all digits found
+}
 bool Contact::fillContactDetails(){
     std::cout << "First name: ";
     std::getline(std::cin, this->_first_name);
@@ -54,6 +62,10 @@ bool Contact::fillContactDetails(){
     std::getline(std::cin, this->_nickname);
     std::cout << "Phone number: ";
     std::getline(std::cin, this->_phone_number);
+    if (!Contact::strIsDigit(this->_phone_number)){
+        std::cout << "Phone number can only contain digits" << std::endl;
+        return false;
+    }
     std::cout << "Darkest secret: ";
     std::getline(std::cin, this->_darkest_secret);
     return !this->_first_name.empty() && !this->_last_name.empty()
