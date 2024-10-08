@@ -14,8 +14,8 @@ private:
 
 public:
     // Constructor and Destructor
-	Contact();
-	~Contact();
+	// Contact();
+	// ~Contact();
 
 	// Getters
 	std::string getFirstName() const;

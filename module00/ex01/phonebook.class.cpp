@@ -15,7 +15,8 @@
 #include <iomanip>
 #include <limits>
 
-// Constructor to initialize the phonebook
+// Constructor
+// initializes the objects of the phonebook class.
 Phonebook::Phonebook() : _index(0), _totalContacts(0) {}
 
 // Add new contact to the phonebook
@@ -41,6 +42,7 @@ void Phonebook:: searchContact() const {
         return;
     }
 	// Print the contact list in table format
+	// setw(10) sets the width of the next output field to 10 characters, right-aligned.
     std::cout << std::setw(10) << "Index" << "|" 
         << std::setw(10) << "First Name" << "|" 
 		<< std::setw(10) << "Last Name" << "|" 
@@ -56,12 +58,12 @@ void Phonebook:: searchContact() const {
 	std::size_t index;
 
 	if (std::cin >> index && index <_totalContacts){
-		std::cin.ignore();
+		std::cin.ignore(); // default: ignores one character (\n)
 		_contactsArr[index].displayDetails();
 	}
 	else {
-		std::cin.clear();
-		std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+		std::cin.clear(); // clears the error flag after invalid input
+		std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n'); //clear buffer before taking in new input
 		std::cout << "Invalid index. Please try again." << std::endl;
 	}
 }

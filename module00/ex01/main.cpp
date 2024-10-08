@@ -51,23 +51,34 @@ int main(){
     std::string input;
 
     while (true) {
-    std::cout << "Input: [ADD] [SEARCH] [EXIT]\n";
-    std::getline(std::cin, input);
+        std::cout << "Input: [ADD] [SEARCH] [EXIT]\n";
+     //Check for std::cin failure && EOF condition (Ctrl+D on Linux/macOS, Ctrl+Z on windows)
+     if(!std::getline(std::cin, input))
+     {
+         if (std::cin.eof()){ //EOF
+             std::cout << "u rlly needa test eof for what a bit overkill leh ok bye" << std::endl;
+             break;
+         }
+         else {
+            std::cin.clear(); //clear error flag after invalid input
+            std::cout << "Input error occured, please try again" << std::endl;
+            continue;
+         }
+     };
 
-    switch(indexify(strToUpperCase(input)))
-    {
-        case ADD:
-            phonebook.addContact();
-            break;
-        case SEARCH:
-            phonebook.searchContact();
-            break;
-        case EXIT:
-            std::cout << "SELAMAT SAYONARA" << std::endl;
-            return 0;
-        default:
-            std::cout << "Invalid input my good sir." << std::endl;
+     switch(indexify(strToUpperCase(input))){
+         case ADD:
+             phonebook.addContact();
+             break;
+         case SEARCH:
+             phonebook.searchContact();
+                break;
+          case EXIT:
+             std::cout << "SELAMAT SAYONARA" << std::endl;
+                 return 0;
+         default:
+             std::cout << "Invalid input my good sir." << std::endl;
+        }
     }
-
-    }
+    return 0;
 }

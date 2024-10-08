@@ -2,11 +2,14 @@
 #include <iostream>
 #include <iomanip>
 
-Contact::Contact(){
-}
 
-Contact::~Contact(){
-}
+// C++ provides a default constructor, only define when I need to initialize member variables.
+// Destructor is only needed when I need to release resources that will not be automatically cleaned up.
+// Contact::Contact(){
+// }
+
+// Contact::~Contact(){
+// }
 
 // Getters
 std::string Contact::getFirstName() const{
