@@ -5,27 +5,30 @@
 #include <iostream>
 #include <string>
 
-class Zombie{
-public:
+using std::cout;
+using std::endl;
 
-// announces themsleves as follows: <name>: BraiiiiiiinnnzzzZ...
-void announce( void );
-
-// creates a zombie, name it, returns it to use outside of function scope.
-Zombie* newZombie( std::string name);
-
-// creates a zombie, name it, and the zombie announces itself. 
-void randomChump( std::string name);
+#define C_RED     "\033[31m"
+#define C_BLUE    "\033[34m"
+#define C_GREEN   "\033[32m"
+#define C_YELLOW  "\033[33m"
+#define C_DEFAULT "\033[0m"
 
 /*
 zombies must be destroyed when we don't need them anymore.
 the destructor must print a message with the name of the zombie for debugging purposes.
 */
+class Zombie{
+public:
+Zombie(std::string name);
+~Zombie();
+
+// announces themsleves as follows: <name>: BraiiiiiiinnnzzzZ...
+void announce( void );
 
 
 private:
-
-
+std::string _Name;
 };
 
 #endif // ZOMBIE_HPP
