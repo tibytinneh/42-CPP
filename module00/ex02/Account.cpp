@@ -62,7 +62,7 @@ int old_amount = _amount;
 std::cout << "index:" << _accountIndex << ";";
 std::cout << "p_amount:" << old_amount << ";";
 if (withdrawal > _amount) {
-		std::cout << ";withdrawal:refused" << std::endl;
+		std::cout << "withdrawal:refused" << std::endl;
         return false;
 }
 _amount -= withdrawal;
