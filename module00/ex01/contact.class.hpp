@@ -1,8 +1,6 @@
 #ifndef CONTACT_CLASS_HPP
 # define CONTACT_CLASS_HPP
-
 # include <string>
-
 
 class Contact{
 private:
@@ -16,8 +14,6 @@ public:
     // Constructor and Destructor
 	// Contact();
 	// ~Contact();
-
-	bool strIsDigit(const std::string& str);
 	// Getters
 	std::string getFirstName() const;
 	std::string getLastName() const;
@@ -36,6 +32,7 @@ public:
 	bool fillContactDetails();
     void displayDetails() const;
     std::string getShortString(const std::string &str) const;
+	bool strIsDigit(const std::string& str);
 };
 
 #endif // CONTACT_CLASS_HPP

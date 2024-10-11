@@ -2,7 +2,6 @@
 #include <iostream>
 #include <iomanip>
 
-
 // C++ provides a default constructor, only define when I need to initialize member variables.
 // Destructor is only needed when I need to release resources that will not be automatically cleaned up.
 // Contact::Contact(){
@@ -10,7 +9,6 @@
 
 // Contact::~Contact(){
 // }
-
 
 // Getters
 std::string Contact::getFirstName() const{
@@ -80,7 +78,6 @@ void Contact::displayDetails() const {
     std::cout << "Phone Number: " << _phone_number << std::endl;
     std::cout << "Darkest Secret: " << _darkest_secret << std::endl;
 }
-
 
 std::string Contact::getShortString(const std::string &str) const {
     if (str.length() > 10) {
