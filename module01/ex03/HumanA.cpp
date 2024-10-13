@@ -1,11 +1,8 @@
 #include "HumanA.hpp"
 
-Human::Human(string name, Weapon* weapon) : _name(name), _weapon(weapon) {}
-Human::~Human() {
-    if (_weapon)
-        delete _weapon;
-}
+HumanA::HumanA(string name, Weapon& weapon) : _name(name), _weapon(weapon) {}
+HumanA::~HumanA() {}
 
-void Human::attack() {
-    cout << _name << " attacks with their " << C_YELLOW << _weapon->getType() << C_DEFAULT << std::endl;
+void HumanA::attack() {
+    cout << _name << " attacks with their " << C_YELLOW << _weapon.getType() << C_DEFAULT << std::endl;
 }

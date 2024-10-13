@@ -14,10 +14,11 @@ int main() {
     {
         Weapon club = Weapon("crude spiked club");
 
-        HumanB jim("Jim", club);
-        bob.attack();
+        HumanB jim("Jim");
+        jim.setWeapon(club);
+        jim.attack();
         club.setType("some other type of club");
-        bob.attack();
+        jim.attack();
     }
     return 0;
 }

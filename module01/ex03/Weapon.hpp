@@ -1,3 +1,6 @@
+#ifndef WEAPON_HPP
+#define WEAPON_HPP
+
 #include <iostream>
 #include <string>
 
@@ -11,17 +14,19 @@ using std::string;
 #define C_YELLOW "\033[33m"
 #define C_DEFAULT "\033[0m"
 
+// getType() returns a const reference to type
+// setType() sets type using the new one passed as parameter
 class Weapon {
    public:
     Weapon();
-    Weapon(string weapon);
+    Weapon(string type);
     ~Weapon();
 
-    // getType() returns a const reference to type
-    const string& getType();
-    // setType() sets type using the new one passed as parameter
+    const string &getType() const;
     void setType(string type);
 
    private:
     string _type;
 };
+
+#endif  // WEAPON_HPP
