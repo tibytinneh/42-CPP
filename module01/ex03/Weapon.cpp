@@ -1,7 +1,7 @@
 #include "Weapon.hpp"
 
 Weapon::Weapon() : _type("") {};
-Weapon::Weapon(string type) : _type(type) {};
+Weapon::Weapon(const string &type) : _type(type) {};
 Weapon::~Weapon() {};
 
 // getType() returns a const reference to type

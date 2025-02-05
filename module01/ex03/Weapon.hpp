@@ -19,7 +19,7 @@ using std::string;
 class Weapon {
    public:
     Weapon();
-    Weapon(string type);
+    Weapon(const string &type);
     ~Weapon();
 
     const string &getType() const;

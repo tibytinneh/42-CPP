@@ -1,9 +1,9 @@
 #include "Zombie.hpp"
 
 // creates a zombie, name it, returns it to use outside of function scope.
-Zombie* newZombie( std::string name)
+Zombie *newZombie(std::string name)
 {
-    Zombie* zombie1_heap = new Zombie(name); // `new` allocates memory on the heap
+	Zombie *zombie1_heap = new Zombie(name); // `new` allocates memory on the heap
 	return zombie1_heap;
 };
 
