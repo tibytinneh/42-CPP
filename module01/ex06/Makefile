@@ -24,7 +24,7 @@ RESET = $(shell tput sgr0)
 #************************************************************************#
 # NAME, compiler, compiler flags, rm #
 #************************************************************************#
-NAME = harl
+NAME = harlFilter
 CC = c++
 SYSTEM :=- $(shell uname -s)
 ifneq (,$(findstring MINGW, $(SYSTEM)))
