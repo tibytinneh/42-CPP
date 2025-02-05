@@ -3,12 +3,6 @@
 
 #include <iostream>
 
-#define C_RED "\033[31m"
-#define C_BLUE "\033[34m"
-#define C_GREEN "\033[32m"
-#define C_YELLOW "\033[33m"
-#define C_DEFAULT "\033[0m"
-
 class Fixed
 {
 private:
