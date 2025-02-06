@@ -1,34 +1,32 @@
 #include <string>
 #include <iostream>
 
-
 using std::cout;
 using std::endl;
 using std::string;
 
-#define C_RED     "\033[31m"
-#define C_BLUE    "\033[34m"
-#define C_GREEN   "\033[32m"
-#define C_YELLOW  "\033[33m"
+#define C_RED "\033[31m"
+#define C_BLUE "\033[34m"
+#define C_GREEN "\033[32m"
+#define C_YELLOW "\033[33m"
 #define C_DEFAULT "\033[0m"
-
 
 int main()
 {
-    string     stringVAR = "HI THIS IS BRAIN";
-    string*    stringPTR = &stringVAR;
-    string&    stringREF = stringVAR;
+    string stringVAR = "HI THIS IS BRAIN";
+    string *stringPTR = &stringVAR;
+    string &stringREF = stringVAR;
 
-    cout << C_RED 
-        << "string stringVAR = \"HI THIS IS BRAIN\";" << endl
-        << "string* stringPTR = &stringVAR;" << endl
-        << "string& stringREF = stringVAR;" << endl;
+    cout << C_RED
+         << "string stringVAR = \"HI THIS IS BRAIN\";" << endl
+         << "string* stringPTR = &stringVAR;" << endl
+         << "string& stringREF = stringVAR;" << endl;
     cout << "----------------------------------------------------------------" << endl;
     cout << C_BLUE;
     cout << "Memory address of stringVAR: " << &stringVAR << endl;
     cout << "Memory address held by stringPTR: " << stringPTR << endl;
     cout << "Memory address held by stringREF: " << &stringREF << endl;
-	cout << "----------------------------------------------------------------" << endl;
+    cout << "----------------------------------------------------------------" << endl;
     cout << C_GREEN;
     cout << "Value of stringVAR: " << stringVAR << endl;
     cout << "Value pointed by stringPTR: " << *stringPTR << endl;
@@ -36,8 +34,6 @@ int main()
 
     return 0;
 }
-
-
 
 /* Pointers vs References
 Pointers holds the memory address of another variable.
