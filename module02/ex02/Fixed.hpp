@@ -55,6 +55,9 @@ public:
 	float toFloat(void) const; // conver fixed-point to float
 	int toInt(void) const;	   // convert fixed-point to int
 
+	int getRawBits(void) const;		// member function
+	void setRawBits(int const raw); // member function
+
 	/* <---Overloaded stream insertion operator---> */
 	friend std::ostream &operator<<(std::ostream &out, const Fixed &fixed);
 };
