@@ -59,7 +59,7 @@ public:
 	void setRawBits(int const raw); // member function
 
 	/* <---Overloaded stream insertion operator---> */
-	friend std::ostream &operator<<(std::ostream &out, const Fixed &fixed);
+	std::ostream &operator<<(std::ostream &out, const Fixed &fixed);
 };
 
 #endif // FIXED_HPP
