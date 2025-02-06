@@ -49,7 +49,7 @@ Fixed &Fixed::operator=(const Fixed &other)
 
 float Fixed::toFloat(void) const
 {
-	return (float)_fixedPointValue / (1 << _fractionalBits);
+	return static_cast<float>(_fixedPointValue) / (1 << _fractionalBits);
 }
 
 int Fixed::toInt(void) const
