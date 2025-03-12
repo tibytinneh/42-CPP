@@ -37,7 +37,7 @@ MKDIR := mkdir -p
 #************************************************************************#
 # Source - paths annd filenames #
 #************************************************************************#
-SRCS = main.cpp ClapTrap.cpp
+SRCS = main.cpp ClapTrap.cpp Utils.cpp
 OBJ_DIR = ./obj/
 OBJS = $(addprefix $(OBJ_DIR), $(SRCS:%.cpp=%.o))
 DEPS = $(OBJS:.o=.d)

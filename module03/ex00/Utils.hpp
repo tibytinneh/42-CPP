@@ -1,5 +1,7 @@
-#ifndef COLOURS_HPP
-#define COLOURS_HPP
+#ifndef UTILS_HPP
+#define UTILS_HPP
+
+#include <iostream>
 
 // ANSI escape codes for colors
 #define RESET "\033[0m"     // Reset to default color
@@ -10,4 +12,7 @@
 #define MAGENTA "\033[35m"  // Magenta
 #define CYAN "\033[36m"     // Cyan
 
-#endif  // COLOURS_HPP
+void announceBlue(const std::string& test);
+void announceRed(const std::string& test);
+void announceGreen(const std::string& test);
+#endif  // UTILS_HPP
