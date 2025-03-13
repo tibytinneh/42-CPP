@@ -54,7 +54,7 @@ void ClapTrap::attack(const std::string& target) {
 
 void ClapTrap::takeDamage(unsigned int amount) {
     if (_hitPoints <= 0) {
-        std::cout << "Cannot attack, ClapTrap " << _name << " has zero hit points." << std::endl;
+        std::cout << "Cannot be attacked, ClapTrap " << _name << " has zero hit points." << std::endl;
         return;
     }
     if (amount >= static_cast<unsigned int>(_hitPoints)) {
@@ -152,7 +152,7 @@ void ClapTrap::setAttackDamage(int ad) {
             std::cout << getName() << "'s attack damage cannot be negative. Attack damage is set to 0." << std::endl;
         } else {
             _attackDamage = ad;
-            std::cout << getName() << "'s attack damage is set to 0." << std::endl;
+            std::cout << getName() << "'s attack damage is set to " << ad << "." << std::endl;
         }
     } else {
         if (ad < 0) {
@@ -160,7 +160,7 @@ void ClapTrap::setAttackDamage(int ad) {
             std::cout << "Attack damage cannot be negative.Attack damage is set to 0. " << std::endl;
         } else {
             _attackDamage = ad;
-            std::cout << "Attack damage is set to 0. " << std::endl;
+            std::cout << "Attack damage is set to " << ad << "." << std::endl;
         }
     }
 }

@@ -3,66 +3,106 @@
 #include "Utils.hpp"
 
 int main() {
-    announceBlue("default constructor");
+    announceBlue("ScavTrap default constructor");
     ScavTrap test;
+    std::cout << &test;
     test.printAll();
 
-    /*
-      announceBlue("default constructor");
-      ClapTrap test;
-      test.printAll();
+    announceBlue("ScavTrap string constructor st1(\"Apple\")");
+    ScavTrap st1("Apple");
+    std::cout << &st1;
+    st1.printAll();
 
-      announceBlue("string constructor ct1(\"Apple\")");
-      ClapTrap ct1("Apple");
-      ct1.printAll();
+    announceBlue("ScavTrap string constructor st2(\"Bob\")");
+    ScavTrap st2("Bob");
+    std::cout << &st2;
+    st2.printAll();
 
-      announceBlue("string constructor ct2(\"Bob\")");
-      ClapTrap ct2("Bob");
-      ct2.printAll();
+    announceRed("st1.attack(st2.getName); st2.takeDamage(st1.getAttackDamage);");
+    st1.attack(st2.getName());
+    st2.takeDamage(st1.getAttackDamage());
 
-      announceRed("ct1.attack(ct2.getName); ct2.takeDamage(ct1.getAttackDamage);");
-      ct1.attack(ct2.getName());
-      ct2.takeDamage(ct1.getAttackDamage());
+    st1.printAll();
+    st2.printAll();
 
-      ct1.printAll();
-      ct2.printAll();
+    announceRed("4* st1.attack(st2.getName); st2.takeDamage(st1.getAttackDamage);");
+    st1.attack(st2.getName());
+    st2.takeDamage(st1.getAttackDamage());
+    st1.attack(st2.getName());
+    st2.takeDamage(st1.getAttackDamage());
+    st1.attack(st2.getName());
+    st2.takeDamage(st1.getAttackDamage());
+    st1.attack(st2.getName());
+    st2.takeDamage(st1.getAttackDamage());
+    st1.printAll();
+    st2.printAll();
 
-      announceRed("9* ct1.attack(ct2.getName); ct2.takeDamage(ct1.getAttackDamage);");
+    announceRed("st1.attack(st2.getName); st2.takeDamage(st1.getAttackDamage);");
+    st1.attack(st2.getName());
+    st2.takeDamage(st1.getAttackDamage());
 
-      ct1.attack(ct2.getName());
-      ct2.takeDamage(ct1.getAttackDamage());
-      ct1.attack(ct2.getName());
-      ct2.takeDamage(ct1.getAttackDamage());
-      ct1.attack(ct2.getName());
-      ct2.takeDamage(ct1.getAttackDamage());
-      ct1.attack(ct2.getName());
-      ct2.takeDamage(ct1.getAttackDamage());
-      ct1.attack(ct2.getName());
-      ct2.takeDamage(ct1.getAttackDamage());
-      ct1.attack(ct2.getName());
-      ct2.takeDamage(ct1.getAttackDamage());
-      ct1.attack(ct2.getName());
-      ct2.takeDamage(ct1.getAttackDamage());
-      ct1.attack(ct2.getName());
-      ct2.takeDamage(ct1.getAttackDamage());
-      ct1.attack(ct2.getName());
-      ct2.takeDamage(ct1.getAttackDamage());
+    st1.printAll();
+    st2.printAll();
 
-      ct1.printAll();
-      ct2.printAll();
+    announceGreen("st1.beRepaired(5); st2.beRepaired(5);");
+    st1.beRepaired(5);
+    st2.beRepaired(5);
+    st1.printAll();
+    st2.printAll();
+    std::cout << "\n--------------------------------------" << std::endl;
 
-      announceRed("ct1.attack(ct2.getName); ct2.takeDamage(ct1.getAttackDamage);");
-      ct1.attack(ct2.getName());
-      ct2.takeDamage(ct1.getAttackDamage());
+    announceBlue("copy constructor test ScavTrap st3(st2)");
 
-      ct1.printAll();
-      ct2.printAll();
+    ScavTrap st3(st2);
+    std::cout << &st2;
+    st2.printAll();
+    std::cout << &st3;
+    st3.printAll();
+    announceBlue("st3.setName(\"Coconut\")");
+    st3.setName("Coconut");
+    std::cout << &st2;
+    st2.printAll();
+    std::cout << &st3;
+    st3.printAll();
 
-      announceGreen("ct1.beRepaired(5); ct2.beRepaired(5);");
-      ct1.beRepaired(5);
-      ct2.beRepaired(5);
-      ct1.printAll();
-      ct2.printAll();
-      return 0;
-  */
+    announceBlue("ScavTrap st4;");
+    ScavTrap st4;
+    std::cout << &st3;
+    st3.printAll();
+    std::cout << &st4;
+    st4.printAll();
+    announceBlue("copy assignment constructor test st4 = st3;");
+
+    st4 = st3;
+    std::cout << &st3;
+    st3.printAll();
+    std::cout << &st4;
+    st4.printAll();
+    announceBlue("st4.setName(\"Dolphin\")");
+    st4.setName("Dolphin");
+    std::cout << &st3;
+    st3.printAll();
+    std::cout << &st4;
+    st4.printAll();
+
+    announceGreen("st4.printGateStatus();");
+    st4.printGateStatus();
+    announceGreen("std::cout << st4.guardGate();");
+    st4.guardGate();
+    announceGreen("st4.printGateStatus();");
+    st4.printGateStatus();
+    announceGreen("std::cout << st4.guardGate();");
+    st4.guardGate();
+    announceGreen("st4.printGateStatus();");
+    st4.printGateStatus();
+    announceGreen("std::cout << st4.guardGate();");
+    st4.guardGate();
+    announceGreen("st4.printGateStatus();");
+    st4.printGateStatus();
+    announceGreen("std::cout << st4.guardGate();");
+    st4.guardGate();
+    announceGreen("st4.printGateStatus();");
+    st4.printGateStatus();
+
+    return 0;
 }

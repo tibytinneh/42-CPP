@@ -92,8 +92,8 @@ int main() {
     ct3.printAll();
     std::cout << &ct4;
     ct4.printAll();
-    announceBlue("ct4.setName(\"Dolphin\")");
-    ct4.setName("Dolphin");
+    announceBlue("ct3.setName(\"Dolphin\")");
+    ct3.setName("Dolphin");
     std::cout << &ct3;
     ct3.printAll();
     std::cout << &ct4;
