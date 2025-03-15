@@ -3,8 +3,8 @@
 
 #include "ClapTrap.hpp"
 
-class ScavTrap : public ClapTrap {
-   private:
+class ScavTrap : virtual public ClapTrap {
+   protected:
     unsigned int _gateStatus;
 
    public:

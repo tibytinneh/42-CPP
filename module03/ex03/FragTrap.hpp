@@ -3,8 +3,8 @@
 
 #include "ClapTrap.hpp"
 
-class FragTrap : public ClapTrap {
-   private:
+class FragTrap : virtual public ClapTrap {
+   protected:
    public:
     FragTrap();
     FragTrap(const std::string& name);

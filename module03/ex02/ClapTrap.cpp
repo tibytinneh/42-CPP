@@ -93,8 +93,6 @@ std::string ClapTrap::getName(void) const { return _name; };
 int ClapTrap::getHitPoints(void) const { return _hitPoints; };
 int ClapTrap::getEnergyPoints(void) const { return _energyPoints; };
 int ClapTrap::getAttackDamage(void) const {
-    if (getEnergyPoints() == 0)
-        return 0;
     return _attackDamage;
 };
 

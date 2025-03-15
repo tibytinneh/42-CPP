@@ -6,7 +6,7 @@
 #    By: aang-shu <aang-shu.42singapore.sg>         +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/09/11 18:05:37 by aang-shu          #+#    #+#              #
-#    Updated: 2025/02/05 17:04:38 by aang-shu         ###   ########.fr        #
+#    Updated: 2025/03/15 18:59:02 by aang-shu         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -24,20 +24,20 @@ RESET = $(shell tput sgr0)
 #************************************************************************#
 # NAME, compiler, compiler flags, rm #
 #************************************************************************#
-NAME := FragTrap 
+NAME := DiamondTrap 
 CC := c++
 SYSTEM :=- $(shell uname -s)
 ifneq (,$(findstring MINGW, $(SYSTEM)))
-	CPPFLAGS = -Wall -Wextra -Werror -std=gnu++98
+	CPPFLAGS = -Wall -Wextra -Werror -Wshadow -std=gnu++98
 else
-	CPPFLAGS = -Wall -Wextra -Werror -std=c++98
+	CPPFLAGS = -Wall -Wextra -Werror -Wshadow -std=c++98
 endif
 RM := rm -rf
 MKDIR := mkdir -p
 #************************************************************************#
 # Source - paths annd filenames #
 #************************************************************************#
-SRCS = main.cpp ClapTrap.cpp Utils.cpp ScavTrap.cpp FragTrap.cpp
+SRCS = main.cpp ClapTrap.cpp Utils.cpp ScavTrap.cpp FragTrap.cpp DiamondTrap.cpp
 OBJ_DIR = ./obj/
 OBJS = $(addprefix $(OBJ_DIR), $(SRCS:%.cpp=%.o))
 DEPS = $(OBJS:.o=.d)

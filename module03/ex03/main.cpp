@@ -1,94 +1,114 @@
 #include "ClapTrap.hpp"
+#include "DiamondTrap.hpp"
 #include "FragTrap.hpp"
 #include "ScavTrap.hpp"
 #include "Utils.hpp"
 
 int main() {
-    announceBlue("FragTrap default constructor");
-    FragTrap test;
+    announceBlue("DiamondTrap default constructor");
+    DiamondTrap test;
     std::cout << &test;
     test.printAll();
+    test.whoAmI();
 
-    announceBlue("FragTrap string constructor ft1(\"Apple\")");
-    FragTrap ft1("Apple");
-    std::cout << &ft1;
-    ft1.printAll();
+    announceBlue("DiamondTrap string constructor dt1(\"Apple\")");
+    DiamondTrap dt1("Apple");
+    std::cout << &dt1;
+    dt1.printAll();
+    dt1.whoAmI();
 
-    announceBlue("FragTrap string constructor ft2(\"Bob\")");
-    FragTrap ft2("Bob");
-    std::cout << &ft2;
-    ft2.printAll();
+    announceBlue("DiamondTrap string constructor dt2(\"Bob\")");
+    DiamondTrap dt2("Bob");
+    std::cout << &dt2;
+    dt2.printAll();
 
-    announceRed("ft1.attack(ft2.getName); ft2.takeDamage(ft1.getAttackDamage);");
-    ft1.attack(ft2.getName());
-    ft2.takeDamage(ft1.getAttackDamage());
+    announceRed("dt1.attack(dt2.getName); dt2.takeDamage(dt1.getAttackDamage);");
+    dt1.attack(dt2.getName());
+    dt2.takeDamage(dt1.getAttackDamage());
 
-    ft1.printAll();
-    ft2.printAll();
+    dt1.printAll();
+    dt2.printAll();
 
-    announceRed("4* ft1.attack(ft2.getName); ft2.takeDamage(ft1.getAttackDamage);");
-    ft1.attack(ft2.getName());
-    ft2.takeDamage(ft1.getAttackDamage());
-    ft1.attack(ft2.getName());
-    ft2.takeDamage(ft1.getAttackDamage());
-    ft1.attack(ft2.getName());
-    ft2.takeDamage(ft1.getAttackDamage());
-    ft1.attack(ft2.getName());
-    ft2.takeDamage(ft1.getAttackDamage());
-    ft1.printAll();
-    ft2.printAll();
+    announceRed("3* dt1.attack(dt2.getName); dt2.takeDamage(dt1.getAttackDamage);");
+    dt1.attack(dt2.getName());
+    dt2.takeDamage(dt1.getAttackDamage());
+    dt1.attack(dt2.getName());
+    dt2.takeDamage(dt1.getAttackDamage());
+    dt1.attack(dt2.getName());
+    dt2.takeDamage(dt1.getAttackDamage());
+    dt1.printAll();
+    dt2.printAll();
 
-    announceRed("ft1.attack(ft2.getName); ft2.takeDamage(ft1.getAttackDamage);");
-    ft1.attack(ft2.getName());
-    ft2.takeDamage(ft1.getAttackDamage());
+    announceRed("dt1.attack(dt2.getName); dt2.takeDamage(dt1.getAttackDamage);");
+    dt1.attack(dt2.getName());
+    dt2.takeDamage(dt1.getAttackDamage());
 
-    ft1.printAll();
-    ft2.printAll();
+    dt1.printAll();
+    dt2.printAll();
 
-    announceGreen("ft1.beRepaired(5); ft2.beRepaired(5);");
-    ft1.beRepaired(5);
-    ft2.beRepaired(5);
-    ft1.printAll();
-    ft2.printAll();
+    announceGreen("dt1.beRepaired(5); dt2.beRepaired(5);");
+    dt1.beRepaired(5);
+    dt2.beRepaired(5);
+    dt1.printAll();
+    dt2.printAll();
 
-    announceGreen("ft1.highFivesGuys(); ft2.beRepaired(5);");
-    ft1.highFivesGuys();
-    ft2.highFivesGuys();
+    announceGreen("dt1.highFivesGuys(); dt2.beRepaired(5);");
+    dt1.highFivesGuys();
+    dt2.highFivesGuys();
+    announceGreen("dt2.printGateStatus();");
+    dt2.printGateStatus();
+    announceGreen("dt2.guardGate();");
+    dt2.guardGate();
+    announceGreen("dt2.printGateStatus();");
+    dt2.printGateStatus();
+    announceGreen("dt2.guardGate();");
+    dt2.guardGate();
+    announceGreen("dt2.printGateStatus();");
+    dt2.printGateStatus();
+    announceGreen("dt2.guardGate();");
+    dt2.guardGate();
+    announceGreen("dt2.printGateStatus();");
+    dt2.printGateStatus();
+    announceGreen("dt2.guardGate();");
+    dt2.guardGate();
+    announceGreen("dt2.printGateStatus();");
+    dt2.printGateStatus();
+
     std::cout << "\n--------------------------------------" << std::endl;
 
-    announceBlue("copy constructor test FragTrap ft3(ft2)");
+    announceBlue("copy constructor test DiamondTrap dt3(dt2)");
 
-    FragTrap ft3(ft2);
-    std::cout << &ft2;
-    ft2.printAll();
-    std::cout << &ft3;
-    ft3.printAll();
-    announceBlue("ft3.setName(\"Coconut\")");
-    ft3.setName("Coconut");
-    std::cout << &ft2;
-    ft2.printAll();
-    std::cout << &ft3;
-    ft3.printAll();
+    DiamondTrap dt3(dt2);
+    std::cout << &dt2;
+    dt2.printAll();
+    std::cout << &dt3;
+    dt3.printAll();
+    announceBlue("dt3.setName(\"Coconut\")");
+    dt3.setName("Coconut");
+    std::cout << &dt2;
+    dt2.printAll();
+    std::cout << &dt3;
+    dt3.printAll();
 
-    announceBlue("FragTrap ft4;");
-    FragTrap ft4;
-    std::cout << &ft3;
-    ft3.printAll();
-    std::cout << &ft4;
-    ft4.printAll();
-    announceBlue("copy assignment constructor test ft4 = ft3;");
+    announceBlue("DiamondTrap dt4;");
+    DiamondTrap dt4;
+    std::cout << &dt3;
+    dt3.printAll();
+    std::cout << &dt4;
+    dt4.printAll();
+    announceBlue("copy assignment constructor test dt4 = dt3;");
 
-    ft4 = ft3;
-    std::cout << &ft3;
-    ft3.printAll();
-    std::cout << &ft4;
-    ft4.printAll();
-    announceBlue("ft4.setName(\"Dolphin\")");
-    ft4.setName("Dolphin");
-    std::cout << &ft3;
-    ft3.printAll();
-    std::cout << &ft4;
-    ft4.printAll();
+    dt4 = dt3;
+    std::cout << &dt3;
+    dt3.printAll();
+    std::cout << &dt4;
+    dt4.printAll();
+    announceBlue("dt4.setName(\"Dolphin\")");
+    dt4.setName("Dolphin");
+    std::cout << &dt3;
+    dt3.printAll();
+    std::cout << &dt4;
+    dt4.printAll();
 
     return 0;
 }
