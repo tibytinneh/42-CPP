@@ -5,10 +5,10 @@ DiamondTrap::DiamondTrap() : ClapTrap("_clap_name"),
                              FragTrap() {
     std::cout << "DiamondTrap Default Constructor called" << std::endl;
     std::cout << "DiamondTrap name is empty string." << std::endl;
-    setHitPoints(FragTrap::_hitPoints);
-    setEnergyPoints(ScavTrap::_energyPoints);
-    setAttackDamage(FragTrap::_attackDamage);
-    setGateStatus(0);
+    this->_hitPoints = FragTrap::_hitPoints;
+    this->_energyPoints = ScavTrap::getDefaultEnergy();
+    this->_attackDamage = FragTrap::_attackDamage;
+    this->_gateStatus = 0;
 }
 
 DiamondTrap::DiamondTrap(const std::string& name) : ClapTrap(name + "_clap_name"),
@@ -16,26 +16,33 @@ DiamondTrap::DiamondTrap(const std::string& name) : ClapTrap(name + "_clap_name"
                                                     FragTrap(),
                                                     _name(name) {
     std::cout << "DiamondTrap String constructor called" << std::endl;
-    std::cout << "DiamondTrap name is set to " << getName() << "." << std::endl;
-    setHitPoints(FragTrap::_hitPoints);
-    setEnergyPoints(ScavTrap::_energyPoints);
-    setAttackDamage(FragTrap::_attackDamage);
-    setGateStatus(0);
+    std::cout << "DiamondTrap name is set to " << this->_name << "." << std::endl;
+    this->_hitPoints = FragTrap::_hitPoints;
+    this->_energyPoints = 50;
+    this->_attackDamage = FragTrap::_attackDamage;
+    this->_gateStatus = 0;
 }
 DiamondTrap::DiamondTrap(const DiamondTrap& other) {
-    setName(other.getName());
-    setHitPoints(other.getHitPoints());
-    setEnergyPoints(other.getEnergyPoints());
-    setAttackDamage(other.getAttackDamage());
+    this->_name = other._name;
+    ClapTrap::_name = other.ClapTrap::_name;
+    this->_hitPoints = other._hitPoints;
+    this->_energyPoints = other._energyPoints;
+    this->_attackDamage = other._attackDamage;
+    this->_gateStatus = other._gateStatus;
     std::cout << "DiamondTrap Copy constructor called" << std::endl;
-    std::cout << "DiamondTrap " << getName() << " has been copied." << std::endl;
+    std::cout << "DiamondTrap " << this->_name << " has been copied." << std::endl;
 }
 
 DiamondTrap& DiamondTrap::operator=(const DiamondTrap& other) {
     std::cout << "DiamondTrap Copy assignment constructor called" << std::endl;
     if (this != &other) {
-        ClapTrap::operator=(other);
-        std::cout << "DiamondTrap " << getName() << " has been assigned values." << std::endl;
+        this->_name = other._name;
+        ClapTrap::_name = other.ClapTrap::_name;
+        this->_hitPoints = other._hitPoints;
+        this->_energyPoints = other._energyPoints;
+        this->_attackDamage = other._attackDamage;
+        this->_gateStatus = other._gateStatus;
+        std::cout << "DiamondTrap " << this->_name << " has been assigned values." << std::endl;
     } else {
         std::cout << "Self-assignment prevented; Cannot assign object to itself." << std::endl;
     }
@@ -44,10 +51,10 @@ DiamondTrap& DiamondTrap::operator=(const DiamondTrap& other) {
 };
 DiamondTrap::~DiamondTrap() {
     std::cout << "DiamondTrap destructor called!" << std::endl;
-    if (getName() == "")
+    if (this->_name == "")
         std::cout << "DiamondTrap has been destroyed." << std::endl;
     else
-        std::cout << "DiamondTrap " << getName() << " has been destroyed." << std::endl;
+        std::cout << "DiamondTrap " << this->_name << " has been destroyed." << std::endl;
 }
 
 void DiamondTrap::whoAmI() {

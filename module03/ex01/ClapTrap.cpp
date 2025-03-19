@@ -8,7 +8,7 @@ ClapTrap::ClapTrap() : _name(""), _hitPoints(10), _energyPoints(10), _attackDama
 };
 ClapTrap::ClapTrap(const std::string& name) : _name(name), _hitPoints(10), _energyPoints(10), _attackDamage(0) {
     std::cout << "ClapTrap String constructor called" << std::endl;
-    if (getName() == "")
+    if (this->_name == "")
         std::cout << "ClapTrap name is empty string." << std::endl;
     else
         std::cout << "ClapTrap name is set to " << name << "." << std::endl;
@@ -21,10 +21,10 @@ ClapTrap::ClapTrap(const ClapTrap& other) : _name(other._name), _hitPoints(other
 ClapTrap& ClapTrap::operator=(const ClapTrap& other) {
     std::cout << "ClapTrap Copy assignment constructor called" << std::endl;
     if (this != &other) {
-        _name = other._name;
-        _hitPoints = other._hitPoints;
-        _energyPoints = other._energyPoints;
-        _attackDamage = other._attackDamage;
+        this->_name = other._name;
+        this->_hitPoints = other._hitPoints;
+        this->_energyPoints = other._energyPoints;
+        this->_attackDamage = other._attackDamage;
 
         std::cout << "ClapTrap " << _name << " has been assigned values." << std::endl;
     } else {
@@ -81,85 +81,18 @@ void ClapTrap::beRepaired(unsigned int amount) {
 void ClapTrap::printAll() const {
     std::cout
         << "\t\t<-----" << std::endl
-        << "\t\tName: " << getName() << std::endl;
-    std::cout << "\t\tHit Points: " << getHitPoints() << std::endl;
-    std::cout << "\t\tEnergy Points: " << getEnergyPoints() << std::endl;
-    std::cout << "\t\tAttack Damage: " << getAttackDamage() << std::endl
+        << "\t\tName: " << _name << std::endl;
+    std::cout << "\t\tHit Points: " << _hitPoints << std::endl;
+    std::cout << "\t\tEnergy Points: " << _energyPoints << std::endl;
+    std::cout << "\t\tAttack Damage: " << _attackDamage << std::endl
               << "\t\t----->" << std::endl;
 }
 
-/* GETTERS */
-std::string ClapTrap::getName(void) const { return _name; };
-int ClapTrap::getHitPoints(void) const { return _hitPoints; };
-int ClapTrap::getEnergyPoints(void) const { return _energyPoints; };
-int ClapTrap::getAttackDamage(void) const {
-    return _attackDamage;
-};
+// /* GETTERS */
+std::string ClapTrap::getName(void) const { return this->_name; };
+int ClapTrap::getAttackDamage(void) const { return _attackDamage; };
 
-/* SETTERS */
+// /* SETTERS */
 void ClapTrap::setName(const std::string& name) {
     _name = name;
-}
-
-void ClapTrap::setHitPoints(int hp) {
-    if (getName() != "") {
-        if (hp < 0) {
-            _hitPoints = 0;
-            std::cout << getName() << "'s hit points cannot be negative. Hit points is set to 0." << std::endl;
-        } else {
-            _hitPoints = hp;
-            std::cout << getName() << "'s hit points is set to " << hp << "." << std::endl;
-        }
-    } else {
-        {
-            if (hp < 0) {
-                _hitPoints = 0;
-                std::cout << "Hit points cannot be negative. Hit points is set to 0." << std::endl;
-            } else {
-                _hitPoints = hp;
-                std::cout << "Hit points is set to " << hp << "." << std::endl;
-            }
-        }
-    }
-}
-
-void ClapTrap::setEnergyPoints(int ep) {
-    if (getName() != "") {
-        if (ep < 0) {
-            _energyPoints = 0;
-            std::cout << getName() << "'s energy points cannot be negative. Energy points is set to 0." << std::endl;
-        } else {
-            _energyPoints = ep;
-            std::cout << getName() << "'s energy points is set to " << ep << "." << std::endl;
-        }
-    } else {
-        if (ep < 0) {
-            _energyPoints = 0;
-            std::cout << "Energy points cannot be negative. Energy points is set to 0." << std::endl;
-        } else {
-            _energyPoints = ep;
-            std::cout << "Energy points is set to " << ep << "." << std::endl;
-        }
-    }
-}
-
-void ClapTrap::setAttackDamage(int ad) {
-    if (getName() != "") {
-        if (ad < 0) {
-            _attackDamage = 0;
-            std::cout << getName() << "'s attack damage cannot be negative. Attack damage is set to 0." << std::endl;
-        } else {
-            _attackDamage = ad;
-
-            std::cout << getName() << "'s attack damage is set to " << ad << "." << std::endl;
-        }
-    } else {
-        if (ad < 0) {
-            _attackDamage = 0;
-            std::cout << "Attack damage cannot be negative.Attack damage is set to 0. " << std::endl;
-        } else {
-            _attackDamage = ad;
-            std::cout << "Attack damage is set to " << ad << "." << std::endl;
-        }
-    }
 }

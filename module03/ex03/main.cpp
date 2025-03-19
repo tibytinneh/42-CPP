@@ -10,7 +10,6 @@ int main() {
     std::cout << &test;
     test.printAll();
     test.whoAmI();
-
     announceBlue("DiamondTrap string constructor dt1(\"Apple\")");
     DiamondTrap dt1("Apple");
     std::cout << &dt1;
@@ -22,14 +21,14 @@ int main() {
     std::cout << &dt2;
     dt2.printAll();
 
-    announceRed("dt1.attack(dt2.getName); dt2.takeDamage(dt1.getAttackDamage);");
+    announceRed("dt1.attack(dt2.getName()); dt2.takeDamage(dt1.getAttackDamage());");
     dt1.attack(dt2.getName());
     dt2.takeDamage(dt1.getAttackDamage());
 
     dt1.printAll();
     dt2.printAll();
 
-    announceRed("3* dt1.attack(dt2.getName); dt2.takeDamage(dt1.getAttackDamage);");
+    announceRed("3* dt1.attack(dt2.getName()); dt2.takeDamage(dt1.getAttackDamage());");
     dt1.attack(dt2.getName());
     dt2.takeDamage(dt1.getAttackDamage());
     dt1.attack(dt2.getName());
@@ -39,7 +38,7 @@ int main() {
     dt1.printAll();
     dt2.printAll();
 
-    announceRed("dt1.attack(dt2.getName); dt2.takeDamage(dt1.getAttackDamage);");
+    announceRed("dt1.attack(dt2.getName()); dt2.takeDamage(dt1.getAttackDamage());");
     dt1.attack(dt2.getName());
     dt2.takeDamage(dt1.getAttackDamage());
 
@@ -52,7 +51,7 @@ int main() {
     dt1.printAll();
     dt2.printAll();
 
-    announceGreen("dt1.highFivesGuys(); dt2.beRepaired(5);");
+    announceGreen("dt1.highFivesGuys(); dt2.highFivesGuys();");
     dt1.highFivesGuys();
     dt2.highFivesGuys();
     announceGreen("dt2.printGateStatus();");
@@ -83,8 +82,8 @@ int main() {
     dt2.printAll();
     std::cout << &dt3;
     dt3.printAll();
-    announceBlue("dt3.setName(\"Coconut\")");
-    dt3.setName("Coconut");
+    announceBlue("dt3.getName() = \"Coconut\"");
+    dt3.getName() = "Coconut";
     std::cout << &dt2;
     dt2.printAll();
     std::cout << &dt3;
@@ -103,8 +102,8 @@ int main() {
     dt3.printAll();
     std::cout << &dt4;
     dt4.printAll();
-    announceBlue("dt4.setName(\"Dolphin\")");
-    dt4.setName("Dolphin");
+    announceBlue("dt4.getName() = \"Dolphin\"");
+    dt4.getName() = "Dolphin";
     std::cout << &dt3;
     dt3.printAll();
     std::cout << &dt4;

@@ -4,7 +4,7 @@
 #include "ClapTrap.hpp"
 
 class ScavTrap : public ClapTrap {
-   private:
+   protected:
     unsigned int _gateStatus;
 
    public:
@@ -19,6 +19,7 @@ class ScavTrap : public ClapTrap {
     void setGateStatus(unsigned int status);
     void printGateStatus() const;
     void printAll() const;
+    void attack(const std::string& target);
 };
 
 #endif

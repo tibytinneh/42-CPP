@@ -19,6 +19,10 @@ class ScavTrap : virtual public ClapTrap {
     void setGateStatus(unsigned int status);
     void printGateStatus() const;
     void printAll() const;
+    void attack(const std::string& target);
+
+    int getDefaultEnergy() const;
+    int _defaultEnergy;
 };
 
 #endif

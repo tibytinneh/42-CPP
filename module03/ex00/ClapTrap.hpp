@@ -25,14 +25,9 @@ class ClapTrap {
     void printAll() const;
     /* GETTERS */
     std::string getName(void) const;
-    int getHitPoints(void) const;
-    int getEnergyPoints(void) const;
     int getAttackDamage(void) const;
     /* SETTERS */
     void setName(const std::string& name);
-    void setHitPoints(int hp);
-    void setEnergyPoints(int ep);
-    void setAttackDamage(int ad);
 };
 
 #endif
