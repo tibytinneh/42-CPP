@@ -26,10 +26,12 @@ WrongAnimal::~WrongAnimal() {
     std::cout << "[WrongAnimal] default destructor called." << std::endl;
 }
 
+/*--------------------PUBLIC METHODS--------------------*/
 void WrongAnimal::makeSound() const {
     std::cout << "[WrongAnimal] makes sound." << std::endl;
 }
 
+/*--------------------GETTERS--------------------*/
 std::string WrongAnimal::getType() const {
     return this->type;
 }

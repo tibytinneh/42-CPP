@@ -26,10 +26,12 @@ Animal::~Animal() {
     std::cout << "[Animal] default destructor called." << std::endl;
 }
 
+/*--------------------PUBLIC METHODS--------------------*/
 void Animal::makeSound() const {
     std::cout << "[Animal] makes sound." << std::endl;
 }
 
+/*--------------------GETTERS--------------------*/
 std::string Animal::getType() const {
     return this->type;
 }

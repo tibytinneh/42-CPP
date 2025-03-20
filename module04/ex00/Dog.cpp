@@ -18,7 +18,6 @@ Dog::Dog(const Dog& other) {
 Dog& Dog::operator=(const Dog& other) {
     if (this != &other) {
         Animal::operator=(other);  // base class assignment
-        this->type = other.type;   // explicitly copying type
     }
     std::cout << "[Dog] copy assignment constructor called." << std::endl;
     return *this;
@@ -28,6 +27,7 @@ Dog::~Dog() {
     std::cout << "[Dog] destructor called." << std::endl;
 }
 
+/*--------------------PUBLIC METHODS--------------------*/
 void Dog::makeSound() const {
     std::cout << "[Dog] BARKS." << std::endl;
 }

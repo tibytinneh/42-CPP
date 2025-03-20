@@ -47,5 +47,25 @@ int main() {
         delete j;
         delete i;
     }
+    std::cout << "\n--------------------------------------" << std::endl;
+    {
+        announceBlue("Creating a dog: Dog dog1;");
+        Dog dog1("A");
+        std::cout << dog1.getType() << " " << std::endl;
+
+        announceBlue("Copy constructor: Dog dog2 = dog1;");
+        Dog dog2 = dog1;
+        std::cout << dog2.getType() << " " << std::endl;
+
+        announceBlue("Assignment constructor: Dog dog3; dog3 = dog1;");
+        Dog dog3;
+        dog3 = dog1;
+        std::cout << dog3.getType() << " " << std::endl;
+
+        std::cout << "\nTesting polymorphism with base class...\n";
+        const Animal* animalDog = new Dog();
+        animalDog->makeSound();
+        delete animalDog;
+    }
     return 0;
 }

@@ -18,7 +18,6 @@ WrongCat::WrongCat(const WrongCat& other) {
 WrongCat& WrongCat::operator=(const WrongCat& other) {
     if (this != &other) {
         WrongAnimal::operator=(other);  // base class assignment
-        this->type = other.type;        // explicitly copying type
     }
     std::cout << "[WrongCat] copy assignment constructor called." << std::endl;
     return *this;
@@ -28,6 +27,7 @@ WrongCat::~WrongCat() {
     std::cout << "[WrongCat] destructor called." << std::endl;
 }
 
+/*--------------------PUBLIC METHODS--------------------*/
 void WrongCat::makeSound() const {
     std::cout << "[WrongCat] MEOWS." << std::endl;
 }

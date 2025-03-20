@@ -18,7 +18,6 @@ WrongDog::WrongDog(const WrongDog& other) {
 WrongDog& WrongDog::operator=(const WrongDog& other) {
     if (this != &other) {
         WrongAnimal::operator=(other);  // base class assignment
-        this->type = other.type;        // explicitly copying type
     }
     std::cout << "[WrongDog] copy assignment constructor called." << std::endl;
     return *this;
@@ -28,6 +27,7 @@ WrongDog::~WrongDog() {
     std::cout << "[WrongDog] destructor called." << std::endl;
 }
 
+/*--------------------PUBLIC METHODS--------------------*/
 void WrongDog::makeSound() const {
     std::cout << "[WrongDog] BARKS." << std::endl;
 }
