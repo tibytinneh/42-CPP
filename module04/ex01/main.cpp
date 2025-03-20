@@ -7,18 +7,21 @@ int main() {
 
     {
         announceBlue("Create and fill an array of Animal objects");
-        Animal* ptr[100];
+        Animal* ptr[4] = {NULL, NULL, NULL, NULL};
         announceBlue("Half of it will be Dog objects and ther other half will be Cat objects");
-        for (int i = 0; i < 50; i++) {
+        for (int i = 0; i < 2; i++) {
             ptr[i] = new Dog();
         }
-        for (int i = 50; i < 100; i++) {
+        for (int i = 2; i < 4; i++) {
             ptr[i] = new Cat();
         }
 
         announceBlue("At the end of your program execution, loop over this array and delete every Animal.");
-        for (int i = 0; i < 100; i++) {
-            delete ptr[i];
+
+        for (int i = 0; i < 4; i++) {
+            if (ptr[i] != NULL) {  // prevents deleting uninitialized memory
+                delete ptr[i];
+            }
         }
     }
     std::cout << "\n--------------------------------------" << std::endl;
@@ -35,6 +38,27 @@ int main() {
         delete meta;
         delete j;
         delete i;
+    }
+    std::cout << "\n--------------------------------------" << std::endl;
+    {
+        announceBlue("Deep copy.");
+        Dog dog1;
+        dog1.setBrainIdea(0, "ORIGINAL ONE");
+        dog1.setBrainIdea(1, "ORIGINAL TWO");
+
+        announceGreen("Copy constructor: Dog dog2 = dog1;");
+        Dog dog2 = dog1;  // Calls copy constructor
+
+        std::cout << "dog1's first idea: " << dog1.getBrainIdea(0) << std::endl;
+        std::cout << "dog2's first idea: " << dog2.getBrainIdea(0) << std::endl;  // Should still be "Chase the cat"
+
+        announceGreen("Modifying dog1's ideas[0]");
+        dog1.setBrainIdea(0, "NEW ONE");
+
+        std::cout << "dog1's first idea: " << dog1.getBrainIdea(0) << std::endl;
+        std::cout << "dog2's first idea: " << dog2.getBrainIdea(0) << std::endl;  // Should still be "Chase the cat"
+
+        announceRed("Going out of scope.");
     }
     return 0;
 }
