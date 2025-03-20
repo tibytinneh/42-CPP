@@ -16,9 +16,8 @@ Animal::Animal(const Animal& other) {
 Animal& Animal::operator=(const Animal& other) {
     if (this != &other) {
         this->type = other.type;
-
     } else {
-        std::cout << "Self-assignment prevented; Cannot assign object to itself." << std::endl;
+        std::cout << "[Animal] Self-assignment prevented; Cannot assign object to itself." << std::endl;
     }
     return *this;
 }
@@ -29,4 +28,8 @@ Animal::~Animal() {
 
 void Animal::makeSound() const {
     std::cout << "[Animal] makes sound." << std::endl;
+}
+
+std::string Animal::getType() const {
+    return this->type;
 }

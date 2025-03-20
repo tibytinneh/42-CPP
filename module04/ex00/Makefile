@@ -37,7 +37,7 @@ MKDIR := mkdir -p
 #************************************************************************#
 # Source - paths annd filenames #
 #************************************************************************#
-SRCS = main.cpp Animal.cpp Dog.cpp Utils.cpp
+SRCS = main.cpp Animal.cpp Dog.cpp Cat.cpp Utils.cpp WrongAnimal.cpp WrongDog.cpp WrongCat.cpp
 OBJ_DIR = ./obj/
 OBJS = $(addprefix $(OBJ_DIR), $(SRCS:%.cpp=%.o))
 DEPS = $(OBJS:.o=.d)
