@@ -47,8 +47,8 @@ int main() {
         dog1.setBrainIdea(0, "ORIGINAL ONE");
         dog1.setBrainIdea(1, "ORIGINAL TWO");
 
-        announceGreen("Copy constructor: Dog dog2 = dog1;");
-        Dog dog2 = dog1;  // copy constructor
+        announceGreen("Dog dog2 = dog1;");
+        Dog dog2 = dog1;
 
         std::cout << "dog1's first idea: " << dog1.getBrainIdea(0) << std::endl;
         std::cout << "dog2's first idea: " << dog2.getBrainIdea(0) << std::endl;  // Should still be "Chase the cat"
@@ -60,6 +60,7 @@ int main() {
         std::cout << "dog2's first idea: " << dog2.getBrainIdea(0) << std::endl;  // Should still be "Chase the cat"
 
         announceRed("Going out of scope.");
+        dog1.makeSound();
     }
     return 0;
 }

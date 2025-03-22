@@ -4,13 +4,14 @@ Animal::Animal() : type("Animal") {
     std::cout << "[Animal] default constructor called." << std::endl;
 }
 
-Animal::Animal(const std::string& type) : type(type) {
+Animal::Animal(const std::string& t) {
     std::cout << "[Animal] param constructor called. " << type << std::endl;
+    this->type = t;
 }
 
 Animal::Animal(const Animal& other) {
     std::cout << "[Animal] copy constructor called. " << other.type << " has been copied." << std::endl;
-    *this = other;
+    this->type = other.type;
 }
 
 Animal& Animal::operator=(const Animal& other) {

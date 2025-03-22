@@ -6,12 +6,7 @@ Cat::Cat() {
     brain = new Brain();
 }
 
-Cat::Cat(const std::string& type) : Animal(type) {
-    this->type = type;
-    std::cout << "[Cat] param constructor called." << std::endl;
-}
-
-Cat::Cat(const Cat& other) {
+Cat::Cat(const Cat& other) : Animal(other) {
     std::cout << "[Cat] copy constructor called." << std::endl;
     brain = new Brain(*other.brain);  // deep copy
 }
