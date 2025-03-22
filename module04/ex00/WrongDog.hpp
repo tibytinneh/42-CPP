@@ -7,7 +7,6 @@
 class WrongDog : public WrongAnimal {
    public:
     WrongDog();
-    WrongDog(const std::string& type);
     WrongDog(const WrongDog& other);
     WrongDog& operator=(const WrongDog& other);
     ~WrongDog();

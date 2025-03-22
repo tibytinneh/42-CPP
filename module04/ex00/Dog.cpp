@@ -4,13 +4,8 @@ Dog::Dog() : Animal("Dog") {
     std::cout << "[Dog] default constructor called." << std::endl;
 }
 
-Dog::Dog(const std::string& type) : Animal(type) {
-    std::cout << "[Dog] param constructor called." << std::endl;
-}
-
-Dog::Dog(const Dog& other) {
+Dog::Dog(const Dog& other) : Animal(other) {
     std::cout << "[Dog] copy constructor called." << std::endl;
-    *this = other;
 }
 
 Dog& Dog::operator=(const Dog& other) {

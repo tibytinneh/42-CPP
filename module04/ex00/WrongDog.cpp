@@ -5,21 +5,15 @@ WrongDog::WrongDog() {
     std::cout << "[WrongDog] default constructor called." << std::endl;
 }
 
-WrongDog::WrongDog(const std::string& type) : WrongAnimal(type) {
-    this->type = type;
-    std::cout << "[WrongDog] param constructor called." << std::endl;
-}
-
-WrongDog::WrongDog(const WrongDog& other) {
-    *this = other;
+WrongDog::WrongDog(const WrongDog& other) : WrongAnimal(other) {
     std::cout << "[WrongDog] copy constructor called." << std::endl;
 }
 
 WrongDog& WrongDog::operator=(const WrongDog& other) {
+    std::cout << "[WrongDog] copy assignment constructor called." << std::endl;
     if (this != &other) {
         WrongAnimal::operator=(other);  // base class assignment
     }
-    std::cout << "[WrongDog] copy assignment constructor called." << std::endl;
     return *this;
 }
 

@@ -50,11 +50,12 @@ int main() {
     std::cout << "\n--------------------------------------" << std::endl;
     {
         announceBlue("Creating a dog: Dog dog1;");
-        Dog dog1("A");
+        Dog dog1;
+        dog1.setType("I AM A HELLA DOG");
         std::cout << dog1.getType() << " " << std::endl;
 
-        announceBlue("Copy constructor: Dog dog2 = dog1;");
-        Dog dog2 = dog1;
+        announceBlue("Copy constructor: Dog dog2(dog1);");
+        Dog dog2(dog1);
         std::cout << dog2.getType() << " " << std::endl;
 
         announceBlue("Assignment constructor: Dog dog3; dog3 = dog1;");
@@ -62,7 +63,14 @@ int main() {
         dog3 = dog1;
         std::cout << dog3.getType() << " " << std::endl;
 
-        std::cout << "\nTesting polymorphism with base class...\n";
+        std::cout << "\n--------------------------------------" << std::endl;
+        dog1.setType("UWU");
+
+        std::cout << dog1.getType() << " " << std::endl;
+        std::cout << dog2.getType() << " " << std::endl;
+
+        std::cout << "\n--------------------------------------" << std::endl;
+
         const Animal* animalDog = new Dog();
         animalDog->makeSound();
         delete animalDog;

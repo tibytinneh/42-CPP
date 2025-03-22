@@ -5,21 +5,15 @@ WrongCat::WrongCat() {
     std::cout << "[WrongCat] default constructor called." << std::endl;
 }
 
-WrongCat::WrongCat(const std::string& type) : WrongAnimal(type) {
-    this->type = type;
-    std::cout << "[WrongCat] param constructor called." << std::endl;
-}
-
-WrongCat::WrongCat(const WrongCat& other) {
-    *this = other;
+WrongCat::WrongCat(const WrongCat& other) : WrongAnimal(other) {
     std::cout << "[WrongCat] copy constructor called." << std::endl;
 }
 
 WrongCat& WrongCat::operator=(const WrongCat& other) {
+    std::cout << "[WrongCat] copy assignment constructor called." << std::endl;
     if (this != &other) {
         WrongAnimal::operator=(other);  // base class assignment
     }
-    std::cout << "[WrongCat] copy assignment constructor called." << std::endl;
     return *this;
 }
 

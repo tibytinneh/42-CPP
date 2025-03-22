@@ -4,16 +4,13 @@ WrongAnimal::WrongAnimal() : type("WrongAnimal") {
     std::cout << "[WrongAnimal] default constructor called." << std::endl;
 }
 
-WrongAnimal::WrongAnimal(const std::string& type) : type(type) {
-    std::cout << "[WrongAnimal] param constructor called. " << type << std::endl;
-}
-
 WrongAnimal::WrongAnimal(const WrongAnimal& other) {
-    *this = other;
     std::cout << "[WrongAnimal] copy constructor called. " << other.type << " has been copied." << std::endl;
+    this->type = other.type;
 }
 
 WrongAnimal& WrongAnimal::operator=(const WrongAnimal& other) {
+    std::cout << "[WrongAnimal] copy assignment constructor called. " << other.type << " has been copied." << std::endl;
     if (this != &other) {
         this->type = other.type;
     } else {
