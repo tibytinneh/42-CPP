@@ -9,11 +9,12 @@ Animal::Animal(const std::string& type) : type(type) {
 }
 
 Animal::Animal(const Animal& other) {
-    *this = other;
     std::cout << "[Animal] copy constructor called. " << other.type << " has been copied." << std::endl;
+    *this = other;
 }
 
 Animal& Animal::operator=(const Animal& other) {
+    std::cout << "[Animal] copy assignment constructor called. " << other.type << " has been copied." << std::endl;
     if (this != &other) {
         this->type = other.type;
     } else {
