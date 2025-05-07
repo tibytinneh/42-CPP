@@ -21,7 +21,7 @@ Bureaucrat &Bureaucrat::operator=(const Bureaucrat &a) {
 Bureaucrat::~Bureaucrat() {
 }
 
-Bureaucrat::GradeTooHighException() {
+Bureaucrat::GradeTooHighException::what() const throw {
     return "Grade is too high!";
 }
 

@@ -24,7 +24,7 @@ RESET = $(shell tput sgr0)
 #************************************************************************#
 # NAME, compiler, compiler flags, rm #
 #************************************************************************#
-NAME := Animal 
+NAME := Bureaucrat 
 CC := c++
 SYSTEM :=- $(shell uname -s)
 ifneq (,$(findstring MINGW, $(SYSTEM)))
@@ -37,7 +37,7 @@ MKDIR := mkdir -p
 #************************************************************************#
 # Source - paths annd filenames #
 #************************************************************************#
-SRCS = main.cpp Animal.cpp Dog.cpp Cat.cpp Utils.cpp WrongAnimal.cpp WrongDog.cpp WrongCat.cpp
+SRCS = main.cpp Bureaucrat.cpp 
 OBJ_DIR = ./obj/
 OBJS = $(addprefix $(OBJ_DIR), $(SRCS:%.cpp=%.o))
 DEPS = $(OBJS:.o=.d)

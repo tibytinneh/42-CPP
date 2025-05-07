@@ -1,0 +1,144 @@
+EX00
+
+bureaucrat exception class(x2) prototype  (GradeTooHighE and GradeTooLowE)  in bureaucrat header,
+
+bureaucrat exception class(x2) body definition in bureaucrat header
+
+
+#include <exception>
+
+
+#define HIGHEST_GRADE 1
+#define LOWEST_GRADE 150
+
+## Bureaucrat.hpp:
+private:
+
+std::string _name;
+int _grade;
+
+public:
+
+OCFSHIT	
+	std::string getName() const;
+	int getGrade() const;
+
+	void incrementGrade();
+	void decrementGrade();
+
+	class GradeTooHighException() : public std::exception{
+		virtual const char* what() const throw();
+	};
+	class GradeTooLowException() : public std::exception{
+		virtual const char* what() const throw();
+	};
+
+define prototype of insertation operator overload outside of class Bureaucrat.
+std::ostream &operator<<(std::ostream &out, const Bureaucrat &Bureaucrat);
+
+
+## Bureaucrat.cpp:
+This is a class(Bureaucrat) having a class(GradeToo~) having a function(what).
+
+const char* Bureaucrat::GradeTooHighException::what() const throw(){
+	 return "Grade too high!";
+};
+
+const char* Bureaucrat::GradeTooLowException::what() const throw(){
+	 return "Grade too low!";
+};
+
+
+// Throw an instance of the exception class
+
+void Bureaucrat::incrementGrade(){
+	if(_grade > 1){
+		_grade -=1;
+	} else {
+		throw Bureaucrat::GradeTooHighException();
+	}
+}
+
+void Bureaucrat::decrementGrade(){
+	if(_grade < 150){
+		_grade +=1;
+	} else {
+		throw Bureaucrat::GradeTooException();
+	}
+}
+
+
+define function body of insertation operator overload outside of class Bureaucrat.
+std::ostream &operator<<(std::ostream &out, const Bureaucrat &Bureaucrat){
+	std::cout << _name << ", bureaucrat grade " << _grade << std::endl;
+}
+
+## main.cpp
+USE THE TRY/CATCH IN MAIN.
+
+-----------------------
+EX01
+
+
+Form.hpp
+
+private:
+	const std::string _name;
+	bool _signed;
+	const int _signGrade;
+	const int _executeGrade;
+
+
+
+public:
+
+OCF SHIT
+const std::string getName() const;
+bool getSigned() const;
+const int getSignGrade() const;
+const int getExecuteGrade() const;
+
+void beSigned(Bureaucrat *o){
+
+std::cout << Bureaucrat::getName() << " signed " << Form::getName() << std::endl;
+std::cout << Bureaucrat::getName() << " couldn't sign " << Form::getName() << " because "
+ << e.what() << std::endl;
+}
+
+class GradeTooHighException() : public std::exception{
+		virtual const char* what() const throw();
+};
+class GradeTooLowException() : public std::exception{
+		virtual const char* what() const throw();
+};
+
+define prototype of insertation operator overload outside of class Form.
+std::ostream &operator<<(std::ostream &out, const Form(const &Form);
+
+
+
+
+Form.cpp
+
+
+const char* Form::GradeTooHighException::what() const throw(){
+	 return "Grade too high!";
+};
+
+const char* Form::GradeTooLowException::what() const throw(){
+	 return "Grade too low!";
+};
+
+
+
+define function body of insertation operator overload outside of class Form.
+
+std::ostream &operator<<(std::ostream &out, const Form(const &Form){
+std::cout << "Name: " << Form.getName << "\n"
+			<< "Signed: " << Form.getSigned << "\n"
+			<< "Grade required to sign form: " << Form.getSignGrade << "\n"
+			<< "Grade required to execute form: " << Form.getExecuteGrade << std::endl;
+}
+
+
+
