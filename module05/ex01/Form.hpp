@@ -4,29 +4,31 @@
 #include <iostream>
 #include <string>
 
-#define HIGHEST_GRADE 1
-#define LOWEST_GRADE 150
+#include "Bureaucrat.hpp"
 
-class Bureaucrat {
+class Bureaucrat;
+class Form {
    private:
     const std::string _name;
-    int _grade;
+    bool _signed;
+    const int _signGrade;
+    const int _executeGrade;
 
    public:
-    Bureaucrat();
-    Bureaucrat(std::string const name, int grade);
-    Bureaucrat(const Bureaucrat &a);
-    Bureaucrat &operator=(const Bureaucrat &a);
-    ~Bureaucrat();
+    Form();
+    Form(std::string const name, const int signGrade, const int executeGrade);
+    Form(const Form &a);
+    Form &operator=(const Form &a);
+    ~Form();
 
     /*--------------------Getters--------------------*/
     std::string getName() const;
-    int getGrade() const;
+    bool getSigned() const;
+    int getSignGrade() const;
+    int getExecuteGrade() const;
 
     /*--------------------Helper functions--------------------*/
-
-    void incrementGrade();
-    void decrementGrade();
+    void beSigned(Bureaucrat &o);
 
     /*--------------------Exception Classes--------------------*/
     class GradeTooHighException : public std::exception {
@@ -37,4 +39,4 @@ class Bureaucrat {
     };
 };
 
-std::ostream &operator<<(std::ostream &out, const Bureaucrat &b);
+std::ostream &operator<<(std::ostream &out, const Form &b);

@@ -4,9 +4,12 @@
 #include <iostream>
 #include <string>
 
+#include "Form.hpp"
+
 #define HIGHEST_GRADE 1
 #define LOWEST_GRADE 150
 
+class Form;
 class Bureaucrat {
    private:
     const std::string _name;
@@ -27,11 +30,13 @@ class Bureaucrat {
 
     void incrementGrade();
     void decrementGrade();
+    void signForm(Form &form);
 
     /*--------------------Exception Classes--------------------*/
     class GradeTooHighException : public std::exception {
         virtual const char *what() const throw();
     };
+
     class GradeTooLowException : public std::exception {
         virtual const char *what() const throw();
     };
