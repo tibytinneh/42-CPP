@@ -1,7 +1,11 @@
-#ifndef BUREAUCRAT_HPP
-#define BUREAUCRAT_HPP
+#pragma once
 
+#include <exception>
 #include <iostream>
+#include <string>
+
+#define HIGHEST_GRADE 1
+#define LOWEST_GRADE 150
 
 class Bureaucrat {
    private:
@@ -16,8 +20,8 @@ class Bureaucrat {
     ~Bureaucrat();
 
     /*--------------------Getters--------------------*/
-    std::string const &getName();
-    int getGrade();
+    const std::string getName() const;
+    int getGrade() const;
 
     /*--------------------Helper functions--------------------*/
 
@@ -33,4 +37,4 @@ class Bureaucrat {
     };
 };
 
-#endif
+std::ostream &operator<<(std::ostream &out, const Bureaucrat &b);
