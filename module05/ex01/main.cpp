@@ -6,136 +6,162 @@
 
 int main() {
     {
-        announce(GREEN, "---START: Bureaucrat OCF test---");
-        announce(DEFAULT, "Copy constructor test");
+        announceStartLine();
+        announceRed("Bureaucrat OCF");
+        announce("[Bureaucrat] Tests the copy constructor and copy assignment");
+        announceGreen("Copy constructor");
         Bureaucrat og("og", 42);
         Bureaucrat cpy(og);
 
-        std::cout << "Original: " << og << std::endl;
-        std::cout << "Copy: " << cpy << std::endl;
+        std::cout << "Original: " << og;
+        std::cout << "Copy: " << cpy;
         std::cout << "---" << std::endl;
 
-        announce(DEFAULT, "Copy assignment test");
+        announceGreen("Copy assignment");
         Bureaucrat a("A", 42);
         Bureaucrat b("B", 24);
 
-        announce(DEFAULT, "before assignment");
-        std::cout << "a: " << a << std::endl;
-        std::cout << "b: " << b << std::endl;
+        announceGreen("before assignment");
+        std::cout << "a: " << a;
+        std::cout << "b: " << b;
         std::cout << "---" << std::endl;
-        announce(DEFAULT, "after assignment");
+        announceGreen("after assignment");
         b = a;
-        std::cout << "a: " << a << std::endl;
-        std::cout << "b: " << b << std::endl;
-        announce(RED, "---END: Bureaucrat OCF test---");
+        std::cout << "a: " << a;
+        std::cout << "b: " << b;
+        announceEndLine();
     }
     {
-        announce(GREEN, "---START: Form OCF test---");
-        announce(DEFAULT, "Copy constructor test");
+        announceStartLine();
+        announceRed("Form OCF");
+        announce("[Form] Tests the copy constructor and copy assignment");
+        announceGreen("Copy constructor");
         Form og("OG", 42, 42);
         Form cpy(og);
 
-        std::cout << "Original: " << og << std::endl;
-        std::cout << "Copy: " << cpy << std::endl;
+        std::cout << "Original: " << og;
+        std::cout << "Copy: " << cpy;
         std::cout << "---" << std::endl;
 
-        announce(DEFAULT, "Copy assignment test");
+        announceGreen("Copy assignment");
         Form a("A", 42, 42);
         Form b("B", 24, 24);
         Bureaucrat c("C", 42);
-        a.beSigned(c);
 
-        announce(DEFAULT, "before assignment");
-        std::cout << "a: " << a << std::endl;
-        std::cout << "b: " << b << std::endl;
+        announceGreen("before assignment");
+        std::cout << "a: " << a;
+        std::cout << "b: " << b;
         std::cout << "---" << std::endl;
-        announce(DEFAULT, "after assignment");
+        announceGreen("after assignment");
         b = a;
-        std::cout << "a: " << a << std::endl;
-        std::cout << "b: " << b << std::endl;
-        announce(RED, "---END: Form OCF test---");
+        std::cout << "a: " << a;
+        std::cout << "b: " << b;
+        announceEndLine();
     }
     {
-        announce(GREEN, "---START: Test for construction of Form class: grade too high/low---");
+        announceStartLine();
+        announceRed("[Form] class construction: grade too high/low---");
         try {
+            announceGreen("[Form] with valid grade - Apple, signGrade: 50, executeGrade: 50");
             Form apple("Apple", 50, 50);
-            std::cout << apple << std::endl;
+            std::cout << apple;
         } catch (const std::exception& e) {
             std::cerr << "Exception caught during Apple's creation: " << e.what() << std::endl;
         }
         std::cout << "---" << std::endl;
         try {
+            announceGreen("[Form] with invalid grade - Bear, signGrade: 0, executeGrade: 50");
             Form bear("Bear", 0, 50);
-            std::cout << bear << std::endl;
+            std::cout << bear;
         } catch (const std::exception& e) {
             std::cerr << "Exception caught during Bear's creation: " << e.what() << std::endl;
         }
         std::cout << "---" << std::endl;
         try {
+            announceGreen("[Form] with invalid grade - Cute, signGrade: 150, executeGrade: 50");
             Form cute("Cute", 151, 50);
-            std::cout << cute << std::endl;
+            std::cout << cute;
         } catch (const std::exception& e) {
             std::cerr << "Exception caught during Cute's creation: " << e.what() << std::endl;
         }
-        announce(RED, "---END: Test for construction of Form class: grade too high/low---");
+        announceEndLine();
     }
     {
-        announce(GREEN, "---START: Test for form's function: beSigned()---");
+        announceStartLine();
+        announceRed("[Form] class function: beSigned()");
         try {
+            announceGreen("[Form] Apple, signGrade: 50, executeGrade: 50");
             Form apple("Apple", 50, 50);
+            announceGreen("[Bureaucrat] Bob, Grade: 50");
             Bureaucrat bob("Bob", 50);
-            std::cout << apple << std::endl;
-            std::cout << bob << std::endl;
+            std::cout << apple;
+            std::cout << bob;
+            announceGreen("apple.beSigned(bob);");
             apple.beSigned(bob);
 
-            std::cout << apple << std::endl;
-            std::cout << bob << std::endl;
+            std::cout << apple;
+            std::cout << bob;
         } catch (const std::exception& e) {
             std::cerr << e.what() << std::endl;
         }
         std::cout << "---" << std::endl;
+        announceEndLine();
     }
     {
-        announce(GREEN, "Test for beSigned, but grade too low");
+        announceStartLine();
+        announceRed("[Form] class function: beSigned(), but grade too low");
         try {
+            announceGreen("[Form] Apple, signGrade: 50, executeGrade: 50");
             Form apple("Apple", 50, 50);
+            announceGreen("[Bureaucrat] Bob, Grade: 100");
             Bureaucrat bob("Bob", 100);
-            std::cout << apple << std::endl;
-            std::cout << bob << std::endl;
+            std::cout << apple;
+            std::cout << bob;
+            announceGreen("apple.beSigned(bob);");
             apple.beSigned(bob);
 
-            std::cout << apple << std::endl;
-            std::cout << bob << std::endl;
+            std::cout << apple;
+            std::cout << bob;
         } catch (const std::exception& e) {
             std::cerr << e.what() << std::endl;
         }
         std::cout << "---" << std::endl;
+        announceEndLine();
     }
     {
-        announce(GREEN, "Test for signForm");
+        announceStartLine();
+        announceRed("[Form] class function: signForm()");
         try {
+            announceGreen("[Form] Apple, signGrade: 50, executeGrade: 50");
             Form apple("Apple", 50, 50);
+            announceGreen("[Bureaucrat] Bob, Grade: 50");
             Bureaucrat bob("Bob", 50);
+            announceGreen("bob.signForm(apple);");
             bob.signForm(apple);
-            std::cout << apple << std::endl;
-            std::cout << bob << std::endl;
+            std::cout << apple;
+            std::cout << bob;
         } catch (const std::exception& e) {
             std::cerr << e.what() << std::endl;
         }
         std::cout << "---" << std::endl;
+        announceEndLine();
     }
     {
-        announce(GREEN, "Test for signForm, but grade too low");
+        announceStartLine();
+        announceRed("[Form] class function: signForm(), but grade too low");
         try {
+            announceGreen("[Form] Apple, signGrade: 50, executeGrade: 50");
             Form apple("Apple", 50, 50);
+            announceGreen("[Bureaucrat] Bob, Grade: 100");
             Bureaucrat bob("Bob", 100);
+            announceGreen("bob.signForm(apple);");
             bob.signForm(apple);
-            std::cout << apple << std::endl;
-            std::cout << bob << std::endl;
+            std::cout << apple;
+            std::cout << bob;
         } catch (const std::exception& e) {
             std::cerr << e.what() << std::endl;
         }
-        std::cout << "---" << std::endl;
+        announceEndLine();
     }
 
     return 0;
