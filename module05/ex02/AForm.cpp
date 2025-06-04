@@ -1,68 +1,79 @@
-#include "Form.hpp"
+#include "AForm.hpp"
+
+#include <stdexcept>
 
 #include "Bureaucrat.hpp"
 
-Form::Form() : _name("default"), _signed(false), _signGrade(50), _executeGrade(50) {
+AForm::AForm() : _name("default"), _signed(false), _signGrade(50), _executeGrade(50) {
 }
 
-Form::Form(std::string const name, const int signGrade, const int executeGrade) : _name(name), _signed(false), _signGrade(signGrade), _executeGrade(executeGrade) {
+AForm::AForm(std::string const name, const int signGrade, const int executeGrade) : _name(name), _signed(false), _signGrade(signGrade), _executeGrade(executeGrade) {
     if (signGrade < HIGHEST_GRADE || executeGrade < HIGHEST_GRADE)
         throw GradeTooHighException();
     else if (signGrade > LOWEST_GRADE || executeGrade > LOWEST_GRADE)
         throw GradeTooLowException();
 }
 
-Form::Form(const Form &a) : _name(a._name), _signed(a._signed), _signGrade(a._signGrade), _executeGrade(a._executeGrade) {
+AForm::AForm(const AForm &a) : _name(a._name), _signed(a._signed), _signGrade(a._signGrade), _executeGrade(a._executeGrade) {
 }
 
-Form &Form::operator=(const Form &a) {
+AForm &AForm::operator=(const AForm &a) {
     if (this != &a)
         this->_signed = a._signed;
     return *this;
 }
 
-Form::~Form() {
+AForm::~AForm() {
 }
 
-std::string Form::getName() const {
+std::string AForm::getName() const {
     return _name;
 };
 
-bool Form::getSigned() const {
+bool AForm::getSigned() const {
     return _signed;
 };
 
-int Form::getSignGrade() const {
+int AForm::getSignGrade() const {
     return _signGrade;
 };
 
-int Form::getExecuteGrade() const {
+int AForm::getExecuteGrade() const {
     return _executeGrade;
 };
 
-void Form::beSigned(Bureaucrat &o) {
+void AForm::beSigned(Bureaucrat &o) {
     if (o.getGrade() > _signGrade) {
-        std::cout << o.getName() << " couldn't sign " << Form::getName() << " because ";
+        std::cout << o.getName() << " couldn't sign " << AForm::getName() << " because ";
         throw GradeTooLowException();
         // main.cpp will print out Error with e.what();
     } else {
         _signed = true;
-        std::cout << "\033[34m" << o.getName() << " signed " << Form::getName() << "\033[0m" << std::endl;
+        std::cout << "\033[34m" << o.getName() << " signed " << AForm::getName() << "\033[0m" << std::endl;
     }
 }
 
-const char *Form::GradeTooHighException::what() const throw() {
+void AForm::validateExecution(Bureaucrat const &executor) const {
+    if (!this->_signed) {
+        throw std::runtime_error("Cannot execute: form is not signed.");
+    }
+    if (executor.getGrade() > this->_executeGrade) {
+        throw AForm::GradeTooLowException();
+    }
+}
+
+const char *AForm::GradeTooHighException::what() const throw() {
     return "Grade is too high!";
 }
 
-const char *Form::GradeTooLowException::what() const throw() {
+const char *AForm::GradeTooLowException::what() const throw() {
     return "Grade is too low!";
 }
 
-std::ostream &operator<<(std::ostream &out, const Form &b) {
-    std::cout << b.getName() << ", Form sign: " << std::boolalpha << b.getSigned()
-              << ", Form sign grade: " << b.getSignGrade()
-              << ", Form execute grade: " << b.getExecuteGrade()
+std::ostream &operator<<(std::ostream &out, const AForm &b) {
+    std::cout << b.getName() << ", AForm sign: " << std::boolalpha << b.getSigned()
+              << ", AForm sign grade: " << b.getSignGrade()
+              << ", AForm execute grade: " << b.getExecuteGrade()
               << "." << std::endl;
     return out;
 }
