@@ -4,10 +4,11 @@
 
 #include "Bureaucrat.hpp"
 
-AForm::AForm() : _name("default"), _signed(false), _signGrade(50), _executeGrade(50) {
-}
+AForm::AForm()
+    : _name("default"), _signed(false), _signGrade(50), _executeGrade(50), _target("default_target") {}
 
-AForm::AForm(std::string const name, const int signGrade, const int executeGrade) : _name(name), _signed(false), _signGrade(signGrade), _executeGrade(executeGrade) {
+AForm::AForm(std::string const &name, int signGrade, int executeGrade)
+    : _name(name), _signed(false), _signGrade(signGrade), _executeGrade(executeGrade) {
     if (signGrade < HIGHEST_GRADE || executeGrade < HIGHEST_GRADE)
         throw GradeTooHighException();
     else if (signGrade > LOWEST_GRADE || executeGrade > LOWEST_GRADE)
@@ -26,21 +27,11 @@ AForm &AForm::operator=(const AForm &a) {
 AForm::~AForm() {
 }
 
-std::string AForm::getName() const {
-    return _name;
-};
-
-bool AForm::getSigned() const {
-    return _signed;
-};
-
-int AForm::getSignGrade() const {
-    return _signGrade;
-};
-
-int AForm::getExecuteGrade() const {
-    return _executeGrade;
-};
+std::string AForm::getName() const { return _name; }
+bool AForm::getSigned() const { return _signed; }
+int AForm::getSignGrade() const { return _signGrade; }
+int AForm::getExecuteGrade() const { return _executeGrade; }
+std::string AForm::getTarget() const { return _target; }
 
 void AForm::beSigned(Bureaucrat &o) {
     if (o.getGrade() > _signGrade) {

@@ -3,15 +3,15 @@
 
 #include "AForm.hpp"
 
-class ShubberyCreationForm : public AForm {
+class ShrubberyCreationForm : public AForm {
    protected:
     void action() const;
 
    public:
-    ShubberyCreationForm();
-    ShubberyCreationForm(const ShubberyCreationForm &a);
-    ShubberyCreationForm &operator=(const ShubberyCreationForm &a);
-    ~ShubberyCreationForm();
+    ShrubberyCreationForm(const std::string &target);
+    ShrubberyCreationForm(const ShrubberyCreationForm &a);
+    ShrubberyCreationForm &operator=(const ShrubberyCreationForm &a);
+    ~ShrubberyCreationForm();
 
     /**------------helper function------------*/
     void execute(Bureaucrat const &executor) const;

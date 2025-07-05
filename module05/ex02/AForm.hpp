@@ -13,6 +13,7 @@ class AForm {
     bool _signed;
     const int _signGrade;
     const int _executeGrade;
+    std::string _target;
 
    protected:
     void validateExecution(Bureaucrat const &executor) const;
@@ -20,16 +21,18 @@ class AForm {
 
    public:
     AForm();
-    AForm(std::string const name, const int signGrade, const int executeGrade);
+    AForm(std::string const &name, int signGrade, int executeGrade);
+    AForm(std::string const &name, int signGrade, int executeGrade, std::string const &target);
     AForm(const AForm &a);
     AForm &operator=(const AForm &a);
-    ~AForm();
+    virtual ~AForm();
 
     /*--------------------Getters--------------------*/
     std::string getName() const;
     bool getSigned() const;
     int getSignGrade() const;
     int getExecuteGrade() const;
+    std::string getTarget() const;
 
     /*--------------------Helper functions--------------------*/
     void beSigned(Bureaucrat &o);
