@@ -1,5 +1,3 @@
-#include <cstdlib>
-#include <ctime>
 #include <iostream>
 
 #include "Bureaucrat.hpp"
@@ -7,99 +5,148 @@
 #include "RobotomyRequestForm.hpp"
 #include "ShrubberyCreationForm.hpp"
 #include "Utils.hpp"
+#include "AForm.hpp"
 
-void testForm(AForm &form, Bureaucrat &signer, Bureaucrat &executor) {
+void testForm(AForm &form, Bureaucrat &signer, Bureaucrat &executor)
+{
+    // announceLine();
     std::cout << form;
 
-    try {
+    try
+    {
         announceGreen("Attempting to sign form");
         signer.signForm(form);
-    } catch (const std::exception &e) {
+    }
+    catch (const std::exception &e)
+    {
         std::cerr << "Signing failed: " << e.what() << std::endl;
     }
 
-    try {
+    try
+    {
         announceGreen("Attempting to execute form");
         executor.executeForm(form);
-    } catch (const std::exception &e) {
+    }
+    catch (const std::exception &e)
+    {
         std::cerr << "Execution failed: " << e.what() << std::endl;
     }
 
-    announceLine();
+    // announceLine();
 }
 
-int main() {
-    std::srand(std::time(NULL));  // for robotomy randomness
-
+int main()
+{
+    announceStart();
     {
         announceStartLine();
-        announceRed("ShrubberyCreationForm test");
+        {
+            announceRed("TESTING: ShrubberyCreationForm [valid case]");
 
-        Bureaucrat signer("LowRank", 145);
-        Bureaucrat executor("ShrubExec", 137);
-        ShrubberyCreationForm shrub("garden");
+            Bureaucrat sign("SIGN", 145);
+            Bureaucrat execute("EXECUTE", 137);
+            ShrubberyCreationForm target("TREE");
 
-        testForm(shrub, signer, executor);
-
-        announceEndLine();
-    }
-
-    {
-        announceStartLine();
-        announceRed("RobotomyRequestForm test");
-
-        Bureaucrat signer("MidRank", 72);
-        Bureaucrat executor("RoboExec", 45);
-        RobotomyRequestForm robo("target");
-
-        testForm(robo, signer, executor);
-        testForm(robo, signer, executor);  // test twice to check randomness
-
-        announceEndLine();
-    }
-
-    {
-        announceStartLine();
-        announceRed("PresidentialPardonForm test");
-
-        Bureaucrat signer("President", 25);
-        Bureaucrat executor("Beeblebrox", 5);
-        PresidentialPardonForm pardon("Ford Prefect");
-
-        testForm(pardon, signer, executor);
-
-        announceEndLine();
-    }
-
-    {
-        announceStartLine();
-        announceRed("Failure: Execute without signing");
-
-        Bureaucrat signer("SignFail", 1);
-        Bureaucrat executor("ExecFail", 1);
-        ShrubberyCreationForm failForm("void");
-
-        try {
-            executor.executeForm(failForm);
-        } catch (const std::exception &e) {
-            std::cerr << "Expected failure: " << e.what() << std::endl;
+            testForm(target, sign, execute);
         }
+        announceLine();
+        {
+            announceRed("TESTING: ShrubberyCreationForm [invalid case: signing grade too low]");
 
+            Bureaucrat sign("SIGN", 150);
+            Bureaucrat execute("EXECUTE", 137);
+            ShrubberyCreationForm target("TREE");
+
+            testForm(target, sign, execute);
+        }
+        announceLine();
+        {
+            announceRed("TESTING: ShrubberyCreationForm [invalid case: execution grade too low]");
+
+            Bureaucrat sign("SIGN", 145);
+            Bureaucrat execute("EXECUTE", 150);
+            ShrubberyCreationForm target("TREE");
+
+            testForm(target, sign, execute);
+        }
         announceEndLine();
     }
 
     {
         announceStartLine();
-        announceRed("Failure: Grade too low to execute");
+        {
+            announceRed("TESTING: RobotomyRequestForm [valid case]");
 
-        Bureaucrat signer("StrongSigner", 1);
-        Bureaucrat weakExec("Weakling", 150);
-        PresidentialPardonForm form("Marvin");
+            Bureaucrat sign("SIGN", 72);
+            Bureaucrat execute("EXECUTE", 45);
+            RobotomyRequestForm target("ROBOT");
 
-        testForm(form, signer, weakExec);
+            testForm(target, sign, execute);
 
+            announceRed("TESTING: execute multiple times to check randomness");
+            execute.executeForm(target);
+            execute.executeForm(target);
+            execute.executeForm(target);
+            execute.executeForm(target);
+            execute.executeForm(target);
+            execute.executeForm(target);
+        }
+        announceLine();
+        {
+            announceRed("TESTING: RobotomyRequestForm [invalid case: signing grade too low]");
+
+            Bureaucrat sign("SIGN", 150);
+            Bureaucrat execute("EXECUTE", 45);
+            RobotomyRequestForm target("ROBOT");
+
+            testForm(target, sign, execute);
+        }
+        announceLine();
+        {
+            announceRed("TESTING: RobotomyRequestForm[invalid case: execution grade too low]");
+
+            Bureaucrat sign("SIGN", 72);
+            Bureaucrat execute("EXECUTE", 150);
+            RobotomyRequestForm target("ROBOT");
+
+            testForm(target, sign, execute);
+        }
+        announceEndLine();
+    }
+    {
+        announceStartLine();
+        {
+            announceRed("TESTING: PresidentialPardonForm [valid case]");
+
+            Bureaucrat sign("SIGN", 25);
+            Bureaucrat execute("EXECUTE", 5);
+            PresidentialPardonForm target("teoenming");
+
+            testForm(target, sign, execute);
+        }
+        announceLine();
+        {
+            announceRed("TESTING: PresidentialPardonForm [invalid case: signing grade too low]");
+
+            Bureaucrat sign("SIGN", 150);
+            Bureaucrat execute("EXECUTE", 5);
+            PresidentialPardonForm target("teoenming");
+
+            testForm(target, sign, execute);
+        }
+        announceLine();
+        {
+            announceRed("TESTING: PresidentialPardonForm [invalid case: execution grade too low]");
+
+            Bureaucrat sign("SIGN", 25);
+            Bureaucrat execute("EXECUTE", 150);
+            PresidentialPardonForm target("teoenming");
+
+            testForm(target, sign, execute);
+        }
         announceEndLine();
     }
 
+    announceEnd();
     return 0;
 }

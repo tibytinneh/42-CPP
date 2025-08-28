@@ -24,7 +24,7 @@ RESET = $(shell tput sgr0)
 #************************************************************************#
 # NAME, compiler, compiler flags, rm #
 #************************************************************************#
-NAME := TriForm 
+NAME := Intern 
 CC := c++
 SYSTEM :=- $(shell uname -s)
 ifneq (,$(findstring MINGW, $(SYSTEM)))
@@ -37,7 +37,7 @@ MKDIR := mkdir -p
 #************************************************************************#
 # Source - paths annd filenames #
 #************************************************************************#
-SRCS = main.cpp Bureaucrat.cpp AForm.cpp PresidentialPardonForm.cpp RobotomyRequestForm.cpp ShrubberyCreationForm.cpp Utils.cpp
+SRCS = main.cpp Bureaucrat.cpp AForm.cpp PresidentialPardonForm.cpp RobotomyRequestForm.cpp ShrubberyCreationForm.cpp Utils.cpp Intern.cpp
 OBJ_DIR = ./obj/
 OBJS = $(addprefix $(OBJ_DIR), $(SRCS:%.cpp=%.o))
 DEPS = $(OBJS:.o=.d)
