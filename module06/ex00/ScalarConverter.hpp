@@ -1,14 +1,18 @@
 #pragma once
 #include <cctype>
+#include <cmath>
+#include <cstdlib>
 #include <iomanip>
 #include <iostream>
+#include <limits>
 #include <string>
 
-class ScalarConverter {
-   public:
+class ScalarConverter
+{
+public:
     static void convert(std::string &exp);
 
-   private:
+private:
     ScalarConverter();
     ScalarConverter(const ScalarConverter &o);
     ScalarConverter &operator=(const ScalarConverter &o);
