@@ -65,8 +65,13 @@ clean:
 	@$(RM) $(OBJS) $(DEPS) $(OBJ_DIR)
 fclean: clean
 	@echo "$(RED)Cleaning executable files: $(RESET)"
-	@echo "$(NAME)"
+	@echo "$(NAME)"	
 	@$(RM) $(NAME)
+ifneq (,$(findstring MINGW, $(SYSTEM)))
+	@echo "$(RED)Cleaning .exe files: $(RESET)"
+	@echo "$(NAME).exe"	
+	@$(RM) $(NAME).exe
+endif
 re: fclean all
 
 -include $(DEPS)
