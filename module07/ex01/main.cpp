@@ -29,7 +29,8 @@ int main()
     {
         int array_int[] = {1, 2, 3, 4, 5};
         std::size_t n = sizeof(array_int) / sizeof(array_int[0]);
-        ::iter(&array_int[0], n, print_array<int>);
+        // ::iter(&array_int[0], n, print_array<int>); //explicit address
+        ::iter(array_int, n, print_array<int>); // implicit conversion
         std::cout << std::endl;
     }
     {
