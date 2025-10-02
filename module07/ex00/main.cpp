@@ -1,6 +1,6 @@
 
 #include <iostream>
-#include "Whatever.hpp"
+#include "whatever.hpp"
 
 //** 42 */
 // int main( void ) {
@@ -47,7 +47,7 @@ int main()
         ::swap(a, b);
 
         std::cout << "a: " << a << std::endl
-                  << "b:" << b << std::endl
+                  << "b: " << b << std::endl
                   << std::endl;
     }
     {
@@ -56,12 +56,12 @@ int main()
 
         std::cout << "swap test: string" << std::endl;
         std::cout << "a: " << a << std::endl
-                  << "b:" << b << std::endl
+                  << "b: " << b << std::endl
                   << std::endl;
         ::swap(a, b);
 
         std::cout << "a: " << a << std::endl
-                  << "b:" << b << std::endl
+                  << "b: " << b << std::endl
                   << std::endl;
     }
 

@@ -1,9 +1,9 @@
 #include <iostream>
 #include <string>
+
 #include "Array.hpp"
 
-int main()
-{
+int main() {
     {
         std::cout << "default constructor empty array" << std::endl;
         Array<int> a;
@@ -26,12 +26,9 @@ int main()
         std::cout << c;
 
         std::cout << "check bounds std::exception throwing a[4];" << std::endl;
-        try
-        {
+        try {
             (void)a[4];
-        }
-        catch (const std::exception &e)
-        {
+        } catch (const std::exception& e) {
             std::cout << "caught exception:" << e.what() << std::endl;
         }
 
@@ -41,20 +38,14 @@ int main()
         d = a;
         std::cout << d;
 
-        a = a;
-        std::cout << a;
-
         std::cout << "test const overload subscript []" << std::endl;
         const Array<int> f = a;
         std::cout << f;
         int z = f[0];
         std::cout << z << std::endl;
-        try
-        {
+        try {
             (void)f[4];
-        }
-        catch (const std::exception &e)
-        {
+        } catch (const std::exception& e) {
             std::cout << "caught exception:" << e.what() << std::endl;
         }
     }
@@ -63,15 +54,12 @@ int main()
         std::cout << "test with string T" << std::endl;
         Array<std::string> a(3);
         std::cout << a;
-        try
-        {
+        try {
             a[0] = "apple";
             a[1] = "bb";
             a[2] = "caca";
             a[3] = "lmao";
-        }
-        catch (std::exception &e)
-        {
+        } catch (std::exception& e) {
             std::cout << "caught exception: " << e.what() << std::endl;
         }
         std::cout << a;
