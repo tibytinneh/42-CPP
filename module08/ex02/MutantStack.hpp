@@ -19,30 +19,31 @@
             => iterators and reverse iterators
             */
 
-// deprive from std::stack<T, Container>
 // clang-format off
-template <typename T, typename Container = std::deque<T> >
+template <typename T>
 // clang-format on
-class MutantStack : public std::stack<T, Container>
+class MutantStack : public std::stack<T>
 {
 public:
     /*  OCF */
-    MutantStack() : std::stack<T, Container>() {}
-    MutantStack(const MutantStack &o) : std::stack<T, Container>(o) {}
+    MutantStack() : std::stack<T>() {}
+    MutantStack(const MutantStack &o) : std::stack<T>(o) {}
     MutantStack &operator=(const MutantStack &o)
     {
         if (this != &o)
-            std::stack<T, Container>::operator=(o);
+            std::stack<T>::operator=(o);
         return *this;
     }
     ~MutantStack() {}
 
     /* Forward and reverse iterators*/
     // iterator typedefs to allow calling MutantStack<int>::iterator etc
-    typedef typename Container::iterator iterator;
-    typedef typename Container::const_iterator const_iterator;
-    typedef typename Container::reverse_iterator reverse_iterator;
-    typedef typename Container::const_reverse_iterator const_reverse_iterator;
+
+    typedef typename std::stack<T>::container_type container_type;
+    typedef typename container_type::iterator iterator;
+    typedef typename container_type::const_iterator const_iterator;
+    typedef typename container_type::reverse_iterator reverse_iterator;
+    typedef typename container_type::const_reverse_iterator const_reverse_iterator;
 
     iterator begin() { return this->c.begin(); }
     iterator end() { return this->c.end(); }
