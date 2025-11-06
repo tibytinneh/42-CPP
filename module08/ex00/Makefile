@@ -6,7 +6,7 @@
 #    By: aang-shu <aang-shu.42singapore.sg>         +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/09/11 18:05:37 by aang-shu          #+#    #+#              #
-#    Updated: 2025/03/15 18:53:16 by aang-shu         ###   ########.fr        #
+#    Updated: 2025/11/06 16:54:31 by aang-shu         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -24,11 +24,7 @@ RESET = $(shell tput sgr0)
 #************************************************************************#
 # NAME, compiler, compiler flags, rm #
 #************************************************************************#
-<<<<<<< HEAD
 NAME := easyfind 
-=======
-NAME := startwithafew 
->>>>>>> 95e7311b0016e8b19662069b51b5a057b4800c22
 CC := c++
 SYSTEM :=- $(shell uname -s)
 ifneq (,$(findstring MINGW, $(SYSTEM)))

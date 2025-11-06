@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 /*
 * Sequential containers:
     Stores elements in a linear sequence. Maintaining the order of insertion.
@@ -166,9 +165,3 @@ int main()
             std::cout << "WTF value found" << std::endl;
     }
 }
-=======
-#include <iostream>
-
-int main() {
-}
->>>>>>> 95e7311b0016e8b19662069b51b5a057b4800c22
