@@ -30,6 +30,8 @@ public:
     void swap_pairs(); // wrapper for swap_pairs_level(0)
     void sort_vector(bool trace);
     void sort_deque(bool trace);
+    void sort_chain_by_insertion_v(std::vector<GroupV> &mainV);
+    void sort_chain_by_insertion_d(std::deque<GroupD> &mainD);
 
 private:                                                 // for swap_pairs
     void swap_pairs_level_vector(int level, bool trace); // recursive

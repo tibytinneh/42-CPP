@@ -8,7 +8,15 @@
 #include <climits>   // UINT_MAX
 #include <iostream>
 #include <algorithm> // std::swap
+static inline unsigned int last_ofV(const std::vector<unsigned int> &v)
+{
+    return v.empty() ? 0 : v[v.size() - 1];
+}
 
+static inline unsigned int last_ofD(const std::deque<unsigned int> &d)
+{
+    return d.empty() ? 0 : d[d.size() - 1];
+}
 PmergeMe::PmergeMe() : _v(), _d(), _n(0) {}
 PmergeMe::PmergeMe(const PmergeMe &o) { (void)o; }
 PmergeMe &PmergeMe::operator=(const PmergeMe &o)
@@ -193,16 +201,17 @@ void PmergeMe::swap_pairs_level_deque(int level, bool trace)
 
     swap_pairs_level_deque(level + 1, trace);
 }
-// clang-format off
 void PmergeMe::sort_vector(bool trace)
 {
     swap_pairs_level_vector(0, /*trace*/ true);
     int top = highestlevelVector();
-    for (int level = top; level >= 0; --level) {
+    for (int level = top; level >= 0; --level)
+    {
         std::vector<GroupV> mainV, pEndV;
         std::vector<unsigned int> remV;
 
         build_level_groups_vector(level, mainV, pEndV, remV);
+        sort_chain_by_insertion_v(mainV);
         if (trace)
         {
             std::cout << "\n\033[34m[sort_vector] Level: \033[0m" << level << "\n";
@@ -218,24 +227,23 @@ void PmergeMe::sort_vector(bool trace)
         }
 
         insert_pend_v(mainV, pEndV, trace);
-        if (trace) std::cout << "Join remainder back to main \n";
+        if (trace)
+            std::cout << "Join remainder back to main \n";
         stitch_v(mainV, remV);
-
-        
     }
-        final_insert_v();
-
 }
 
 void PmergeMe::sort_deque(bool trace)
 {
     swap_pairs_level_deque(0, /*trace*/ true);
     int top = highestlevelDeque();
-    for (int level = top; level >= 0; --level) {
+    for (int level = top; level >= 0; --level)
+    {
         std::deque<GroupD> mainD, pEndD;
         std::deque<unsigned int> remD;
 
         build_level_groups_deque(level, mainD, pEndD, remD);
+        sort_chain_by_insertion_d(mainD);
         if (trace)
         {
             std::cout << "\n\033[35m[sort_deque] Level: \033[0m" << level << "\n";
@@ -247,15 +255,14 @@ void PmergeMe::sort_deque(bool trace)
             else
                 for (std::size_t i = 0; i < remD.size(); i++)
                     std::cout << remD[i] << " ";
-            }
-            std::cout << "STEP 3: BINARY INSERTION\n";
+        }
+        std::cout << "STEP 3: BINARY INSERTION\n";
 
         insert_pend_d(mainD, pEndD, trace);
-        if (trace) std::cout << "Join remainder back to main \n";
+        if (trace)
+            std::cout << "Join remainder back to main \n";
         stitch_d(mainD, remD);
-
     }
-        final_insert_d();
 }
 
 int PmergeMe::highestlevelVector() const
@@ -294,28 +301,34 @@ int PmergeMe::highestlevelDeque() const
     return level - 1; // last valid level
 }
 
-void PmergeMe::printGroupV(const char *s, const std::vector<GroupV> &gv){
-    std::cout << "\033[34m" << s  << std::endl;
-    for (std::size_t i = 0; i < gv.size(); i++){
-        std::cout << (gv[i].kind == 'B' ? 'B': 'A') << gv[i].pair_idx << "[";
-        for (std::size_t j = 0; j < gv[i].v.size(); j++){
+void PmergeMe::printGroupV(const char *s, const std::vector<GroupV> &gv)
+{
+    std::cout << "\033[34m" << s << std::endl;
+    for (std::size_t i = 0; i < gv.size(); i++)
+    {
+        std::cout << (gv[i].kind == 'B' ? 'B' : 'A') << gv[i].pair_idx << "[";
+        for (std::size_t j = 0; j < gv[i].v.size(); j++)
+        {
             std::cout << gv[i].v[j] << " ";
         }
         std::cout << "]\n";
     }
-    std::cout <<" \n\033[0m";
+    std::cout << " \n\033[0m";
 }
 
-void PmergeMe::printGroupD(const char *s, const std::deque<GroupD> &gd){
-    std::cout << "\033[35m" << s  << std::endl;
-    for (std::size_t i = 0; i < gd.size(); i++){
-        std::cout << (gd[i].kind == 'B' ? 'B': 'A') << gd[i].pair_idx << "[";
-        for (std::size_t j = 0; j < gd[i].d.size(); j++){
+void PmergeMe::printGroupD(const char *s, const std::deque<GroupD> &gd)
+{
+    std::cout << "\033[35m" << s << std::endl;
+    for (std::size_t i = 0; i < gd.size(); i++)
+    {
+        std::cout << (gd[i].kind == 'B' ? 'B' : 'A') << gd[i].pair_idx << "[";
+        for (std::size_t j = 0; j < gd[i].d.size(); j++)
+        {
             std::cout << gd[i].d[j] << " ";
         }
         std::cout << "]\n";
     }
-    std::cout <<" \n\033[0m";
+    std::cout << " \n\033[0m";
 }
 
 // Build group for a single level from _v or _d
@@ -325,38 +338,47 @@ void PmergeMe::build_level_groups_vector(
     std::vector<GroupV> &pendV,
     std::vector<unsigned int> &remV) const
 {
-    mainV.clear(); pendV.clear(); remV.clear();
+    mainV.clear();
+    pendV.clear();
+    remV.clear();
 
     const std::size_t n = _v.size();
 
-    const std::size_t group_size = std::size_t(1) << level; //pow2
-    const std::size_t pair_size  = group_size << 1; //multi2
+    const std::size_t group_size = std::size_t(1) << level; // pow2
+    const std::size_t pair_size = group_size << 1;          // multi2
 
-    if (pair_size == 0  || pair_size > n) return; //base case
+    if (pair_size == 0 || pair_size > n)
+        return; // base case
 
     std::size_t num_of_pairs = n / pair_size;
 
-    for (std::size_t p = 0; p < num_of_pairs; ++p) {
+    for (std::size_t p = 0; p < num_of_pairs; ++p)
+    {
         std::size_t base = p * pair_size;
-        GroupV left;  left.kind  = 'B'; left.pair_idx = p + 1;
-        GroupV right; right.kind = 'A'; right.pair_idx = p + 1;
+        GroupV left;
+        left.kind = 'B';
+        left.pair_idx = p + 1;
+        GroupV right;
+        right.kind = 'A';
+        right.pair_idx = p + 1;
         left.v.resize(group_size); // prep for indexed assignments
         right.v.resize(group_size);
-        for (std::size_t t = 0; t < group_size; t++) {
-            left.v[t]  = _v[base + t];
+        for (std::size_t t = 0; t < group_size; t++)
+        {
+            left.v[t] = _v[base + t];
             right.v[t] = _v[base + group_size + t];
         }
-        if (p == 0) 
-            mainV.push_back(left);  // b1
-        else        
-            pendV.push_back(left);  // b2...b?
-        mainV.push_back(right);     // all a?
+        if (p == 0)
+            mainV.push_back(left); // b1
+        else
+            pendV.push_back(left); // b2...b?
+        mainV.push_back(right);    // all a?
 
-    }   //END with: main: b1 + a...a?
-        //          pEnd: b2 ..... b?
+    } // END with: main: b1 + a...a?
+      //           pEnd: b2 ..... b?
 
-    std::size_t stored = num_of_pairs* pair_size;
-    for (std::size_t i = stored; i < n; ++i) 
+    std::size_t stored = num_of_pairs * pair_size;
+    for (std::size_t i = stored; i < n; ++i)
         remV.push_back(_v[i]); // fill up remainder.
 }
 
@@ -366,72 +388,94 @@ void PmergeMe::build_level_groups_deque(
     std::deque<GroupD> &pendD,
     std::deque<unsigned int> &remD) const
 {
-    mainD.clear(); pendD.clear(); remD.clear();
+    mainD.clear();
+    pendD.clear();
+    remD.clear();
 
     const std::size_t n = _d.size();
 
-    const std::size_t group_size = std::size_t(1) << level; //pow2
-    const std::size_t pair_size  = group_size << 1; //multi2
+    const std::size_t group_size = std::size_t(1) << level; // pow2
+    const std::size_t pair_size = group_size << 1;          // multi2
 
-    if (pair_size == 0  || pair_size > n) return; //base case
+    if (pair_size == 0 || pair_size > n)
+        return; // base case
 
     std::size_t num_of_pairs = n / pair_size;
 
-    for (std::size_t p = 0; p < num_of_pairs; ++p) {
+    for (std::size_t p = 0; p < num_of_pairs; ++p)
+    {
         std::size_t base = p * pair_size;
-        GroupD left;  left.kind  = 'B'; left.pair_idx = p + 1;
-        GroupD right; right.kind = 'A'; right.pair_idx = p + 1;
+        GroupD left;
+        left.kind = 'B';
+        left.pair_idx = p + 1;
+        GroupD right;
+        right.kind = 'A';
+        right.pair_idx = p + 1;
         left.d.resize(group_size); // prep for indexed assignments
         right.d.resize(group_size);
-        for (std::size_t t = 0; t < group_size; t++) {
-            left.d[t]  = _d[base + t];
+        for (std::size_t t = 0; t < group_size; t++)
+        {
+            left.d[t] = _d[base + t];
             right.d[t] = _d[base + group_size + t];
         }
-        if (p == 0) 
-            mainD.push_back(left);  // b1
-        else        
-            pendD.push_back(left);  // b2...b?
-        mainD.push_back(right);     // all a?
+        if (p == 0)
+            mainD.push_back(left); // b1
+        else
+            pendD.push_back(left); // b2...b?
+        mainD.push_back(right);    // all a?
 
-    }   //END with: main: b1 + a...a?
-        //          pEnd: b2 ..... b?
+    } // END with: main: b1 + a...a?
+      //           pEnd: b2 ..... b?
 
-    std::size_t stored = num_of_pairs* pair_size;
-    for (std::size_t i = stored; i < n; ++i) 
+    std::size_t stored = num_of_pairs * pair_size;
+    for (std::size_t i = stored; i < n; ++i)
         remD.push_back(_d[i]); // fill up remainder.
 }
 
-void PmergeMe::insert_pend_v(std::vector<GroupV> &mainV,std::vector<GroupV> &pEndV, bool trace){
+void PmergeMe::insert_pend_v(std::vector<GroupV> &mainV, std::vector<GroupV> &pEndV, bool trace)
+{
     const std::size_t pend = pEndV.size();
-    const std::size_t m_b = 1 + pend; //b1...  b_m_b
+    const std::size_t m_b = 1 + pend; // b1...  b_m_b
 
     std::vector<std::size_t> order;
     jacobsthal_b_order_v(m_b, order);
 
-    for (std::size_t o = 0; o < order.size(); o++){
+    for (std::size_t o = 0; o < order.size(); o++)
+    {
         std::size_t j = order[o];
-        std::size_t pair_idx = (j >= 2) ? (j - 2) : 0 ;  //start from b2 -> [0], b3 -> [1]
-        if (pair_idx >= pend) continue;
-        const GroupV &bj = pEndV[pair_idx]; //copy for inserting
+        std::size_t pair_idx = (j >= 2) ? (j - 2) : 0; // start from b2 -> [0], b3 -> [1]
+        if (pair_idx >= pend)
+            continue;
+        const GroupV &bj = pEndV[pair_idx]; // copy for inserting
 
-        //find position of 'A'j
+        // find position of 'A'j
         std::size_t posAj = 0;
         bool found = false;
 
-        for (std::size_t i = 0; i < mainV.size(); i++){
-            if (mainV[i].kind == 'A' && mainV[i].pair_idx == j){
+        for (std::size_t i = 0; i < mainV.size(); i++)
+        {
+            if (mainV[i].kind == 'A' && mainV[i].pair_idx == j)
+            {
                 posAj = i;
                 found = true;
                 break;
             }
         }
+        std::size_t L = 0, R = mainV.size();
+        if (found)
+        {
+            const unsigned int keyBj = last_ofV(bj.v);
+            const unsigned int keyAj = last_ofV(mainV[posAj].v);
+            if (keyBj <= keyAj)
+                R = posAj; // insert before Aj
+            else
+                L = posAj + 1; // insert after Aj
+        }
 
-        std::size_t L = 0;
-        std::size_t R = found ? posAj : mainV.size();
-        std::size_t ins = lowerBoundV(mainV, bj, L, R);
-
+        const std::size_t ins = lowerBoundV(mainV, bj, L, R);
         mainV.insert(mainV.begin() + static_cast<std::ptrdiff_t>(ins), bj);
-        if (trace){
+        if (trace)
+        {
             std::cout << "\033[34mInsert B" << j << " in " << L << ", " << R << " pos" << ins << "\n";
             printGroupV("Main:", mainV);
             std::cout << "\033[0m";
@@ -439,37 +483,50 @@ void PmergeMe::insert_pend_v(std::vector<GroupV> &mainV,std::vector<GroupV> &pEn
     }
 }
 
-void PmergeMe::insert_pend_d(std::deque<GroupD> &mainD,std::deque<GroupD> &pEndD, bool trace){
+void PmergeMe::insert_pend_d(std::deque<GroupD> &mainD, std::deque<GroupD> &pEndD, bool trace)
+{
     const std::size_t pend = pEndD.size();
-    const std::size_t m_b = 1 + pend; //b1...  b_m_b
+    const std::size_t m_b = 1 + pend; // b1...  b_m_b
 
-    std::vector<std::size_t> order;
-    jacobsthal_b_order_v(m_b, order);
+    std::deque<std::size_t> order;
+    jacobsthal_b_order_d(m_b, order);
 
-    for (std::size_t o = 0; o < order.size(); o++){
+    for (std::size_t o = 0; o < order.size(); o++)
+    {
         std::size_t j = order[o];
-        std::size_t pair_idx = (j >= 2) ? (j - 2) : 0 ;  //start from b2 -> [0], b3 -> [1]
-        if (pair_idx >= pend) continue;
-        const GroupD &bj = pEndD[pair_idx]; //copy for inserting
+        std::size_t pair_idx = (j >= 2) ? (j - 2) : 0; // start from b2 -> [0], b3 -> [1]
+        if (pair_idx >= pend)
+            continue;
+        const GroupD &bj = pEndD[pair_idx]; // copy for inserting
 
-        //find position of 'A'j
+        // find position of 'A'j
         std::size_t posAj = 0;
         bool found = false;
 
-        for (std::size_t i = 0; i < mainD.size(); i++){
-            if (mainD[i].kind == 'A' && mainD[i].pair_idx == j){
+        for (std::size_t i = 0; i < mainD.size(); i++)
+        {
+            if (mainD[i].kind == 'A' && mainD[i].pair_idx == j)
+            {
                 posAj = i;
                 found = true;
                 break;
             }
         }
+        std::size_t L = 0, R = mainD.size();
+        if (found)
+        {
+            const unsigned int keyBj = last_ofD(bj.d);
+            const unsigned int keyAj = last_ofD(mainD[posAj].d);
+            if (keyBj <= keyAj)
+                R = posAj;
+            else
+                L = posAj + 1;
+        }
 
-        std::size_t L = 0;
-        std::size_t R = found ? posAj : mainD.size();
-        std::size_t ins = lowerBoundD(mainD, bj, L, R);
-
+        const std::size_t ins = lowerBoundD(mainD, bj, L, R);
         mainD.insert(mainD.begin() + static_cast<std::ptrdiff_t>(ins), bj);
-        if (trace){
+        if (trace)
+        {
             std::cout << "\033[34mInsert B" << j << " in " << L << ", " << R << " pos" << ins << "\n";
             printGroupD("Main:", mainD);
             std::cout << "\033[0m";
@@ -477,23 +534,16 @@ void PmergeMe::insert_pend_d(std::deque<GroupD> &mainD,std::deque<GroupD> &pEndD
     }
 }
 
-static inline unsigned int last_ofV(const std::vector<unsigned int> &v) {
-    return v.empty() ? 0 : v[v.size()-1];
-}
-
-static inline unsigned int last_ofD(const std::deque<unsigned int> &d) {
-    return d.empty() ? 0 : d[d.size()-1];
-}
-
 std::size_t PmergeMe::lowerBoundV(
     const std::vector<GroupV> &mainV, const GroupV &bj, std::size_t L, std::size_t R)
 {
     unsigned int key = last_ofV(bj.v);
-    while (L < R) {
-        std::size_t mid = L + (R-L)/2;
-        if (last_ofV(mainV[mid].v) < key) 
-            L = mid+1; 
-        else 
+    while (L < R)
+    {
+        std::size_t mid = L + (R - L) / 2;
+        if (last_ofV(mainV[mid].v) < key)
+            L = mid + 1;
+        else
             R = mid;
     }
     return L;
@@ -503,105 +553,138 @@ std::size_t PmergeMe::lowerBoundD(
     const std::deque<GroupD> &mainD, const GroupD &bj, std::size_t L, std::size_t R)
 {
     unsigned int key = last_ofD(bj.d);
-    while (L < R) {
-        std::size_t mid = L + (R-L)/2;
-        if (last_ofD(mainD[mid].d) < key) 
-            L = mid+1; 
-        else 
+    while (L < R)
+    {
+        std::size_t mid = L + (R - L) / 2;
+        if (last_ofD(mainD[mid].d) < key)
+            L = mid + 1;
+        else
             R = mid;
     }
     return L;
 }
 
-void PmergeMe::jacobsthal_b_order_v(std::size_t m_b, std::vector<std::size_t> &order){
+// Keep using your existing lowerBoundV/D (they compare by last element).
+void PmergeMe::sort_chain_by_insertion_v(std::vector<GroupV> &mainV)
+{
+    std::vector<GroupV> sorted;
+    sorted.reserve(mainV.size());
+    for (std::size_t i = 0; i < mainV.size(); ++i)
+    {
+        const std::size_t ins = lowerBoundV(sorted, mainV[i], 0, sorted.size());
+        sorted.insert(sorted.begin() + static_cast<std::ptrdiff_t>(ins), mainV[i]);
+    }
+    mainV.swap(sorted);
+}
+
+void PmergeMe::sort_chain_by_insertion_d(std::deque<GroupD> &mainD)
+{
+    std::deque<GroupD> sorted;
+    for (std::size_t i = 0; i < mainD.size(); ++i)
+    {
+        const std::size_t ins = lowerBoundD(sorted, mainD[i], 0, sorted.size());
+        sorted.insert(sorted.begin() + static_cast<std::ptrdiff_t>(ins), mainD[i]);
+    }
+    mainD.swap(sorted);
+}
+
+void PmergeMe::jacobsthal_b_order_v(std::size_t m_b, std::vector<std::size_t> &order)
+{
     order.clear();
-    if (m_b <= 1) return;
+    if (m_b <= 1)
+        return;
     std::size_t prev = 1;
     std::size_t cur = 3;
 
-    while (true){
-        if (cur <= m_b){
-            for (std::size_t i = cur; i > prev; i--){
-                if (i >= 2) 
+    while (true)
+    {
+        if (cur <= m_b)
+        {
+            for (std::size_t i = cur; i > prev; i--)
+            {
+                if (i >= 2)
                     order.push_back(i);
             }
             // go next
             std::size_t nxt = cur + 2 * prev;
-            prev = cur; 
+            prev = cur;
             cur = nxt;
-        } else {
-            for (std::size_t i = m_b; i > prev; i--){
-                if (i >=2)
+        }
+        else
+        {
+            for (std::size_t i = m_b; i > prev; i--)
+            {
+                if (i >= 2)
                     order.push_back(i);
-                }
+            }
             break;
         }
     }
 }
 
-void PmergeMe::jacobsthal_b_order_d(std::size_t m_b, std::deque<std::size_t> &order){
+void PmergeMe::jacobsthal_b_order_d(std::size_t m_b, std::deque<std::size_t> &order)
+{
     order.clear();
-    if (m_b <= 1) return;
+    if (m_b <= 1)
+        return;
     std::size_t prev = 1;
     std::size_t cur = 3;
 
-    while (true){
-        if (cur <= m_b){
-            for (std::size_t i = cur; i > prev; i--){
-                if (i >= 2) 
+    while (true)
+    {
+        if (cur <= m_b)
+        {
+            for (std::size_t i = cur; i > prev; i--)
+            {
+                if (i >= 2)
                     order.push_back(i);
             }
             // go next
             std::size_t nxt = cur + 2 * prev;
-            prev = cur; 
+            prev = cur;
             cur = nxt;
-        } else {
-            for (std::size_t i = m_b; i > prev; i--){
-                if (i >=2)
+        }
+        else
+        {
+            for (std::size_t i = m_b; i > prev; i--)
+            {
+                if (i >= 2)
                     order.push_back(i);
-                }
+            }
             break;
         }
     }
 }
 
-void PmergeMe::stitch_v(const std::vector<GroupV> &mainV, const std::vector<unsigned int> &remV){
+void PmergeMe::stitch_v(const std::vector<GroupV> &mainV, const std::vector<unsigned int> &remV)
+{
     std::vector<unsigned int> out;
-    for (std::size_t i = 0; i < mainV.size(); i++){
+    for (std::size_t i = 0; i < mainV.size(); i++)
+    {
         out.insert(out.end(), mainV[i].v.begin(), mainV[i].v.end());
     }
-    out.insert(out.end(), remV.begin(), remV.end());
-    _v.swap(out);
+    // insert remaining values into sorted vector using binary insert.
+    for (std::size_t i = 0; i < remV.size(); i++)
+    {
+        std::vector<unsigned int>::iterator it = std::lower_bound(out.begin(), out.end(), remV[i]);
+        out.insert(it, remV[i]);
+    }
 
+    _v.swap(out);
 }
 
-void PmergeMe::stitch_d(const std::deque<GroupD> &mainD, const std::deque<unsigned int> &remD){
+void PmergeMe::stitch_d(const std::deque<GroupD> &mainD, const std::deque<unsigned int> &remD)
+{
     std::deque<unsigned int> out;
-    for (std::size_t i = 0; i < mainD.size(); i++){
+    for (std::size_t i = 0; i < mainD.size(); i++)
+    {
         out.insert(out.end(), mainD[i].d.begin(), mainD[i].d.end());
     }
-    out.insert(out.end(), remD.begin(), remD.end());
+    // Insert remaining values into sorted deque using binary insert
+    for (std::size_t i = 0; i < remD.size(); i++)
+    {
+        std::deque<unsigned int>::iterator it = std::lower_bound(out.begin(), out.end(), remD[i]);
+        out.insert(it, remD[i]);
+    }
     _d.swap(out);
-
-}
-void PmergeMe::final_insert_v(){
-    if (_v.empty()) return;
-    if ((_v.size() & 1u) == 0u) return; // even = nothing appended at the end;
-    unsigned int r = _v.back();
-    _v.pop_back();
-    std::vector<unsigned int>::iterator it = 
-        std::lower_bound(_v.begin(), _v.end(), r);
-    _v.insert(it, r);
-
-}
-
-void PmergeMe::final_insert_d(){
-    if (_d.empty()) return;
-    if ((_d.size() & 1u) == 0u) return; // even = nothing appended at the end;
-    unsigned int r = _d.back();
-    _d.pop_back();
-    std::deque<unsigned int>::iterator it = 
-        std::lower_bound(_d.begin(), _d.end(), r);
-    _d.insert(it, r);
-
 }
