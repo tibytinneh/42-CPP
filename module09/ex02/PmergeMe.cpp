@@ -2,22 +2,31 @@
 
 #include <stdexcept> //stderror
 #include <set>       //std::set for duplicate
-#include <cctype>    //std::isdigit
 #include <cstdlib>   //std::strtoul
 #include <cerrno>    //errno, ERANGE
 #include <climits>   // UINT_MAX
 #include <iostream>
-#include <algorithm> // std::swap
+#include <algorithm>
+
+/**
+ * Return the last element of vector `v` or 0 if empty.
+ * @param {const std::vector<unsigned int>&} v - source vector
+ * @return {unsigned int} last element or 0 when v.empty()
+ */
 static inline unsigned int last_ofV(const std::vector<unsigned int> &v)
 {
     return v.empty() ? 0 : v[v.size() - 1];
 }
-
+/**
+ * Return the last element of vector `d` or 0 if empty.
+ * @param {const std::vector<unsigned int>&} v - source vector
+ * @return {unsigned int} last element or 0 when v.empty()
+ */
 static inline unsigned int last_ofD(const std::deque<unsigned int> &d)
 {
     return d.empty() ? 0 : d[d.size() - 1];
 }
-PmergeMe::PmergeMe() : _v(), _d(), _n(0) {}
+PmergeMe::PmergeMe() : _v(), _d() {}
 PmergeMe::PmergeMe(const PmergeMe &o) { (void)o; }
 PmergeMe &PmergeMe::operator=(const PmergeMe &o)
 {
@@ -26,6 +35,15 @@ PmergeMe &PmergeMe::operator=(const PmergeMe &o)
 }
 PmergeMe::~PmergeMe() {}
 
+/**
+ * Parse program arguments into internal containers.
+ * Strict rules: each `av[i]` must be a decimal unsigned integer.
+ * Populates _v, _d and _n. Throws runtime_error on invalid input.
+ *
+ * @param {int} ac - argument count
+ * @param {char **} av - argument vector
+ * @throws std::runtime_error on invalid/missing token or duplicates
+ */
 void PmergeMe::buildContainers(int ac, char **av)
 {
 
@@ -54,6 +72,7 @@ void PmergeMe::buildContainers(int ac, char **av)
 const std::vector<unsigned int> &PmergeMe::getVector() const { return _v; }
 const std::deque<unsigned int> &PmergeMe::getDeque() const { return _d; }
 int PmergeMe::size() const { return _n; }
+
 void PmergeMe::printVector(const std::string &s, const std::vector<unsigned int> &v) const
 {
     std::cout << s;
@@ -84,6 +103,14 @@ void PmergeMe::printDeque(const std::string &s, const std::deque<unsigned int> &
     std::cout << std::endl;
 }
 
+/**
+ * Strict unsigned integer parser.
+ * Accepts only a non-empty string of digits. Uses strtoul for overflow detection.
+ *
+ * @param {const std::string&} s - input token
+ * @param {unsigned int&} out - parsed value on success
+ * @return {bool} true on success, false on failure
+ */
 bool PmergeMe::parseUInt(const std::string &s, unsigned int &out)
 {
     if (!isAllDigits(s))
@@ -101,6 +128,11 @@ bool PmergeMe::parseUInt(const std::string &s, unsigned int &out)
     return true;
 }
 
+/**
+ * Check that string contains only decimal digits.
+ * @param {const std::string&} s - input
+ * @return {bool} true when s is non-empty and all chars are '0'..'9'
+ */
 bool PmergeMe::isAllDigits(const std::string &s)
 {
     if (s.empty())
@@ -113,6 +145,11 @@ bool PmergeMe::isAllDigits(const std::string &s)
     return true;
 }
 
+/**
+ * Throw runtime_error if vector contains duplicate values.
+ * @param {const std::vector<unsigned int>&} v - input to check
+ * @throws std::runtime_error when duplicate found
+ */
 void PmergeMe::checkDuplicates(const std::vector<unsigned int> &v)
 {
     std::set<unsigned int> se(v.begin(), v.end());
@@ -122,12 +159,13 @@ void PmergeMe::checkDuplicates(const std::vector<unsigned int> &v)
     }
 }
 
-void PmergeMe::swap_pairs()
-{
-    swap_pairs_level_vector(0, /*trace*/ true);
-    swap_pairs_level_deque(0, /*trace*/ true);
-}
-
+/**
+ * Do pairwise compare-and-swap at `level` on the internal vector.
+ * Each block of size 2^level is split in two halves and swapped if needed.
+ *
+ * @param {int} level - recursion level (0 -> pair size 2)
+ * @param {bool} trace - when true print debug output
+ */
 void PmergeMe::swap_pairs_level_vector(int level, bool trace)
 {
     const std::size_t num_of_ele = _v.size();
@@ -167,6 +205,13 @@ void PmergeMe::swap_pairs_level_vector(int level, bool trace)
     swap_pairs_level_vector(level + 1, trace);
 }
 
+/**
+ * Do pairwise compare-and-swap at `level` on the internal deque.
+ * Mirror of swap_pairs_level_vector but for _d.
+ *
+ * @param {int} level - recursion level
+ * @param {bool} trace - when true print debug output
+ */
 void PmergeMe::swap_pairs_level_deque(int level, bool trace)
 {
     const std::size_t num_of_ele = _d.size();
@@ -201,9 +246,17 @@ void PmergeMe::swap_pairs_level_deque(int level, bool trace)
 
     swap_pairs_level_deque(level + 1, trace);
 }
+
+/**
+ * High-level sort routine that drives the Ford–Johnson algorithm for vector.
+ * For each level: build groups, sort main chain, insert pending B groups (Jacobsthal order),
+ * then rejoin remainder.
+ *
+ * @param {bool} trace - enable debug prints
+ */
 void PmergeMe::sort_vector(bool trace)
 {
-    swap_pairs_level_vector(0, /*trace*/ true);
+    swap_pairs_level_vector(0, trace);
     int top = highestlevelVector();
     for (int level = top; level >= 0; --level)
     {
@@ -223,7 +276,7 @@ void PmergeMe::sort_vector(bool trace)
             else
                 for (std::size_t i = 0; i < remV.size(); i++)
                     std::cout << remV[i] << " ";
-            std::cout << "STEP 3: BINARY INSERTION\n";
+            std::cout << "\nbinary insertion (insert elements from pEnd in jacobsthal sequence starting from 3\n";
         }
 
         insert_pend_v(mainV, pEndV, trace);
@@ -233,9 +286,14 @@ void PmergeMe::sort_vector(bool trace)
     }
 }
 
+/**
+ * High-level sort routine that drives the Ford–Johnson algorithm for deque.
+ *
+ * @param {bool} trace - enable debug prints
+ */
 void PmergeMe::sort_deque(bool trace)
 {
-    swap_pairs_level_deque(0, /*trace*/ true);
+    swap_pairs_level_deque(0, trace);
     int top = highestlevelDeque();
     for (int level = top; level >= 0; --level)
     {
@@ -255,8 +313,8 @@ void PmergeMe::sort_deque(bool trace)
             else
                 for (std::size_t i = 0; i < remD.size(); i++)
                     std::cout << remD[i] << " ";
+            std::cout << "\nbinary insertion (insert elements from pEnd in jacobsthal sequence starting from 3\n";
         }
-        std::cout << "STEP 3: BINARY INSERTION\n";
 
         insert_pend_d(mainD, pEndD, trace);
         if (trace)
@@ -265,6 +323,12 @@ void PmergeMe::sort_deque(bool trace)
     }
 }
 
+/**
+ * Compute highest level supported by the internal vector size.
+ * Returns -1 when fewer than 2 elements.
+ *
+ * @return {int} top level (>=0) or -1
+ */
 int PmergeMe::highestlevelVector() const
 {
     std::size_t n = _v.size();
@@ -283,6 +347,12 @@ int PmergeMe::highestlevelVector() const
     return level - 1; // last valid level
 }
 
+/**
+ * Compute highest level supported by the internal deque size.
+ * Returns -1 when fewer than 2 elements.
+ *
+ * @return {int} top level (>=0) or -1
+ */
 int PmergeMe::highestlevelDeque() const
 {
     std::size_t n = _d.size();
@@ -331,7 +401,18 @@ void PmergeMe::printGroupD(const char *s, const std::deque<GroupD> &gd)
     std::cout << " \n\033[0m";
 }
 
-// Build group for a single level from _v or _d
+/**
+ * Build groups for a single level from internal vector _v.
+ * Produces:
+ *  - mainV: B1 followed by all A_i (A sorted by their key if required later)
+ *  - pendV: B2..B_m (pending B groups to be inserted)
+ *  - remV: remaining tail values not part of complete pairs
+ *
+ * @param {int} level - grouping level (block size = 2^level)
+ * @param {std::vector<GroupV>&} mainV - output main groups
+ * @param {std::vector<GroupV>&} pendV - output pending B groups
+ * @param {std::vector<unsigned int>&} remV - output remainder values
+ */
 void PmergeMe::build_level_groups_vector(
     int level,
     std::vector<GroupV> &mainV,
@@ -382,6 +463,14 @@ void PmergeMe::build_level_groups_vector(
         remV.push_back(_v[i]); // fill up remainder.
 }
 
+/**
+ * Build groups for a single level from internal deque _d.
+ *
+ * @param {int} level - grouping level
+ * @param {std::deque<GroupD>&} mainD - output main groups
+ * @param {std::deque<GroupD>&} pendD - output pending B groups
+ * @param {std::deque<unsigned int>&} remD - output remainder values
+ */
 void PmergeMe::build_level_groups_deque(
     int level,
     std::deque<GroupD> &mainD,
@@ -432,6 +521,18 @@ void PmergeMe::build_level_groups_deque(
         remD.push_back(_d[i]); // fill up remainder.
 }
 
+/**
+ * Insert pending B groups (vector path) into mainV in Jacobsthal order.
+ * For each pending B_j:
+ *  - locate A_j in mainV (if present)
+ *  - choose insertion window [L,R) = (posAj+1 .. end) or (end..end) if A_j absent
+ *  - binary search by group last element to find insertion index
+ *  - insert B_j at the found position
+ *
+ * @param {std::vector<GroupV>&} mainV - main groups (modified in-place)
+ * @param {std::vector<GroupV>&} pEndV - pending B groups
+ * @param {bool} trace - print debug info if true
+ */
 void PmergeMe::insert_pend_v(std::vector<GroupV> &mainV, std::vector<GroupV> &pEndV, bool trace)
 {
     const std::size_t pend = pEndV.size();
@@ -483,6 +584,13 @@ void PmergeMe::insert_pend_v(std::vector<GroupV> &mainV, std::vector<GroupV> &pE
     }
 }
 
+/**
+ * Insert pending B groups (deque path) into mainD in Jacobsthal order.
+ *
+ * @param {std::deque<GroupD>&} mainD - main groups (modified in-place)
+ * @param {std::deque<GroupD>&} pEndD - pending B groups
+ * @param {bool} trace - print debug info if true
+ */
 void PmergeMe::insert_pend_d(std::deque<GroupD> &mainD, std::deque<GroupD> &pEndD, bool trace)
 {
     const std::size_t pend = pEndD.size();
@@ -534,6 +642,16 @@ void PmergeMe::insert_pend_d(std::deque<GroupD> &mainD, std::deque<GroupD> &pEnd
     }
 }
 
+/**
+ * Binary lower_bound on mainV [L,R) comparing groups by their last element.
+ * Returns insertion index in range [L,R].
+ *
+ * @param {const std::vector<GroupV>&} mainV - search container
+ * @param {const GroupV&} bj - group whose last element is the key
+ * @param {std::size_t} L - left bound (inclusive)
+ * @param {std::size_t} R - right bound (exclusive)
+ * @return {std::size_t} insertion index
+ */
 std::size_t PmergeMe::lowerBoundV(
     const std::vector<GroupV> &mainV, const GroupV &bj, std::size_t L, std::size_t R)
 {
@@ -549,6 +667,15 @@ std::size_t PmergeMe::lowerBoundV(
     return L;
 }
 
+/**
+ * Binary lower_bound on mainD [L,R) comparing groups by their last element.
+ *
+ * @param {const std::deque<GroupD>&} mainD - search container
+ * @param {const GroupD&} bj - group whose last element is the key
+ * @param {std::size_t} L - left bound (inclusive)
+ * @param {std::size_t} R - right bound (exclusive)
+ * @return {std::size_t} insertion index
+ */
 std::size_t PmergeMe::lowerBoundD(
     const std::deque<GroupD> &mainD, const GroupD &bj, std::size_t L, std::size_t R)
 {
@@ -564,7 +691,12 @@ std::size_t PmergeMe::lowerBoundD(
     return L;
 }
 
-// Keep using your existing lowerBoundV/D (they compare by last element).
+/**
+ * Stable insertion-sort like routine over group chain for vector.
+ * Uses lowerBoundV to find each group's insertion point.
+ *
+ * @param {std::vector<GroupV>&} mainV - chain to sort (modified in-place)
+ */
 void PmergeMe::sort_chain_by_insertion_v(std::vector<GroupV> &mainV)
 {
     std::vector<GroupV> sorted;
@@ -577,6 +709,11 @@ void PmergeMe::sort_chain_by_insertion_v(std::vector<GroupV> &mainV)
     mainV.swap(sorted);
 }
 
+/**
+ * Stable insertion-sort like routine over group chain for deque.
+ *
+ * @param {std::deque<GroupD>&} mainD - chain to sort (modified in-place)
+ */
 void PmergeMe::sort_chain_by_insertion_d(std::deque<GroupD> &mainD)
 {
     std::deque<GroupD> sorted;
@@ -588,6 +725,13 @@ void PmergeMe::sort_chain_by_insertion_d(std::deque<GroupD> &mainD)
     mainD.swap(sorted);
 }
 
+/**
+ * Produce Jacobsthal-style insertion order for b indices (vector version).
+ * Fills `order` with integers >= 2 indicating the sequence in which B_j are inserted.
+ *
+ * @param {std::size_t} m_b - maximum index (1 + pend)
+ * @param {std::vector<std::size_t>&} order - output order
+ */
 void PmergeMe::jacobsthal_b_order_v(std::size_t m_b, std::vector<std::size_t> &order)
 {
     order.clear();
@@ -622,6 +766,12 @@ void PmergeMe::jacobsthal_b_order_v(std::size_t m_b, std::vector<std::size_t> &o
     }
 }
 
+/**
+ * Produce Jacobsthal-style insertion order for b indices (deque version).
+ *
+ * @param {std::size_t} m_b - maximum index (1 + pend)
+ * @param {std::deque<std::size_t>&} order - output order
+ */
 void PmergeMe::jacobsthal_b_order_d(std::size_t m_b, std::deque<std::size_t> &order)
 {
     order.clear();
@@ -656,6 +806,13 @@ void PmergeMe::jacobsthal_b_order_d(std::size_t m_b, std::deque<std::size_t> &or
     }
 }
 
+/**
+ * Stitch mainV groups and remainder remV into final sorted vector _v.
+ * The algorithm concatenates group data then inserts remV items by binary insert.
+ *
+ * @param {const std::vector<GroupV>&} mainV - main groups
+ * @param {const std::vector<unsigned int>&} remV - remainder values
+ */
 void PmergeMe::stitch_v(const std::vector<GroupV> &mainV, const std::vector<unsigned int> &remV)
 {
     std::vector<unsigned int> out;
@@ -673,6 +830,12 @@ void PmergeMe::stitch_v(const std::vector<GroupV> &mainV, const std::vector<unsi
     _v.swap(out);
 }
 
+/**
+ * Stitch mainD groups and remainder remD into final sorted deque _d.
+ *
+ * @param {const std::deque<GroupD>&} mainD - main groups
+ * @param {const std::deque<unsigned int>&} remD - remainder values
+ */
 void PmergeMe::stitch_d(const std::deque<GroupD> &mainD, const std::deque<unsigned int> &remD)
 {
     std::deque<unsigned int> out;
@@ -680,7 +843,7 @@ void PmergeMe::stitch_d(const std::deque<GroupD> &mainD, const std::deque<unsign
     {
         out.insert(out.end(), mainD[i].d.begin(), mainD[i].d.end());
     }
-    // Insert remaining values into sorted deque using binary insert
+    // insert remaining values into sorted deque using binary insert
     for (std::size_t i = 0; i < remD.size(); i++)
     {
         std::deque<unsigned int>::iterator it = std::lower_bound(out.begin(), out.end(), remD[i]);

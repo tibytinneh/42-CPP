@@ -27,7 +27,6 @@ public:
     ~PmergeMe();
 
     void buildContainers(int ac, char **av);
-    void swap_pairs(); // wrapper for swap_pairs_level(0)
     void sort_vector(bool trace);
     void sort_deque(bool trace);
     void sort_chain_by_insertion_v(std::vector<GroupV> &mainV);
@@ -40,9 +39,9 @@ private:                                                 // for swap_pairs
 public: // helpers
     const std::vector<unsigned int> &getVector() const;
     const std::deque<unsigned int> &getDeque() const;
-    int size() const;
     void printVector(const std::string &s, const std::vector<unsigned int> &v) const;
     void printDeque(const std::string &s, const std::deque<unsigned int> &d) const;
+    int size() const;
     void printGroupV(const char *s, const std::vector<GroupV> &gv);
     void printGroupD(const char *s, const std::deque<GroupD> &gd);
     int highestlevelVector() const;

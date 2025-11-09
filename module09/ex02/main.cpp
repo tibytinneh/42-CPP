@@ -1,6 +1,16 @@
 #include "PmergeMe.hpp"
 #include <iostream>
 #include <cstdlib>
+#include <ctime>
+#include <iomanip>
+
+#include <sys/time.h>
+static inline double wall_us()
+{
+    struct timeval tv;
+    gettimeofday(&tv, 0);
+    return tv.tv_sec * 1e6 + tv.tv_usec;
+}
 
 int main(int ac, char **av)
 {
@@ -15,21 +25,23 @@ int main(int ac, char **av)
     try
     {
         pm.buildContainers(ac, av);
-        const std::vector<unsigned int> og_v = pm.getVector();
-        pm.printVector("Before:", og_v);
-        // run step 1: swap pairs for v & d
-        // pm.swap_pairs();
-        // pm.printVector("after swap pairs(v):", pm.getVector());
-        // pm.printDeque("after swap pairs(d):", pm.getDeque());
-        // clang-format off
-        pm.sort_vector(/*trace=*/true);
-        pm.sort_deque(/*trace=*/true);
-        // std::vector<std::vector<unsigned int> > mainV, pEndV;
-        // std::vector<unsigned int> remainderV;
-        // pm.build_chains_vector(mainV, pEndV, remainderV, /*trace=*/true);
+        pm.printVector("Before:", pm.getVector());
+        double v0 = wall_us(); // wall-clock microseconds.
+        pm.sort_vector(/*trace=*/false);
+        double v1 = wall_us();
+        double vec_us = v1 - v0;
+        double d0 = wall_us();
+        pm.sort_deque(/*trace=*/false);
+        double d1 = wall_us();
+        double deq_us = d1 - d0;
         pm.printVector("After(v):", pm.getVector());
         pm.printDeque("After(d):", pm.getDeque());
-
+        std::cout.setf(std::ios::fixed);
+        std::cout << std::setprecision(5);
+        std::cout << "Time to process a range of " << pm.size()
+                  << " elements with std::vector : " << vec_us << " us\n";
+        std::cout << "Time to process a range of " << pm.size()
+                  << " elements with std::deque  : " << deq_us << " us\n";
     }
     catch (const std::exception &e)
     {
