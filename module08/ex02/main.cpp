@@ -1,7 +1,8 @@
 #include <iostream>
 #include <list>
-#include "MutantStack.hpp"
+#include <string>
 
+#include "MutantStack.hpp"
 /*                      [std::stack]            [std::list]
     push element        push(x)                 push_back(x)        <=
     top element         top()                   back()              <=
@@ -11,8 +12,7 @@
     reverse iterators   rbegin()/rend()         rbegin()/rend()
 */
 
-int main()
-{
+int main() {
     // pdf
     std::cout << "test: pdf ( using MutantStack std::stack ) " << std::endl;
     {
@@ -39,8 +39,7 @@ int main()
         ++it;
         --it;
 
-        while (it != ite)
-        {
+        while (it != ite) {
             std::cout << *it << std::endl;
             ++it;
         }
@@ -73,12 +72,47 @@ int main()
         ++it;
         --it;
 
-        while (it != ite)
-        {
+        while (it != ite) {
             std::cout << *it << std::endl;
             ++it;
         }
         //        return 0;
     }
-    return 0;
+    {
+        // string
+        std::cout << "test: string ( using MutantStack std::stack ) " << std::endl;
+        {
+            MutantStack<std::string> mstack;
+
+            mstack.push("a b c ");
+            mstack.push("d e f ");
+
+            std::cout << mstack.top() << std::endl;
+
+            mstack.pop();
+
+            std::cout << mstack.size() << std::endl;
+
+            mstack.push("g h i ");
+            mstack.push("j k l ");
+            mstack.push("m n o ");
+            // [...]
+            mstack.push("p q r ");
+
+            MutantStack<std::string>::iterator it = mstack.begin();
+            MutantStack<std::string>::iterator ite = mstack.end();
+
+            ++it;
+            --it;
+
+            while (it != ite) {
+                std::cout << *it << std::endl;
+                ++it;
+            }
+
+            std::stack<std::string> s(mstack);
+            //        return 0;
+        }
+        return 0;
+    }
 }
