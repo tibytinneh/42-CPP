@@ -27,6 +27,15 @@ BitcoinExchange &BitcoinExchange::operator=(const BitcoinExchange &o)
 
 BitcoinExchange::~BitcoinExchange() {}
 
+/**
+ * Load database file of historical rates.
+ * Reads CSV lines of the form "YYYY-MM-DD,<rate>" (header optional),
+ * validates and stores rates in the internal ordered map _rates.
+ *
+ * Invalid lines are skipped silently; file I/O errors are reported to stderr.
+ *
+ * @param {const std::string&} path - path to CSV database
+ */
 void BitcoinExchange::loadDb(const std::string &path)
 {
     std::ifstream db(path.c_str());
@@ -71,6 +80,12 @@ void BitcoinExchange::loadDb(const std::string &path)
     }
 }
 
+/**
+ * Trim whitespace from both ends of a string.
+ *
+ * @param {const std::string&} s - input string
+ * @return {std::string} trimmed copy (empty if s contained only whitespace)
+ */
 std::string BitcoinExchange::trim(const std::string &s)
 {
     std::string::size_type i = 0;
@@ -83,6 +98,13 @@ std::string BitcoinExchange::trim(const std::string &s)
     return s.substr(i, j - i);
 }
 
+/**
+ * Validate date string in ISO format "YYYY-MM-DD".
+ * Checks format, digits and valid month/day including leap-year rules.
+ *
+ * @param {const std::string&} s - date string to validate
+ * @return {bool} true if s is a valid date in the supported range/format
+ */
 bool BitcoinExchange::isValidDate(const std::string &s)
 {
     int yyyy;
@@ -123,6 +145,12 @@ bool BitcoinExchange::isValidDate(const std::string &s)
     return true;
 }
 
+/**
+ * Test whether a year is a leap year.
+ *
+ * @param {int} yyyy - year
+ * @return {bool} true if yyyy is a leap year
+ */
 bool BitcoinExchange::isLeapYear(int yyyy)
 {
     // divisible by 400
@@ -130,6 +158,14 @@ bool BitcoinExchange::isLeapYear(int yyyy)
     return (yyyy % 400 == 0 || (yyyy % 4 == 0 && yyyy % 100 != 0));
 }
 
+/**
+ * Parse a floating-point number from a string strictly.
+ * Uses an istringstream to detect trailing junk and invalid input.
+ *
+ * @param {const std::string&} s - input string to parse
+ * @param {float&} o - output parsed value on success
+ * @return {bool} true on successful parse (no trailing characters), false otherwise
+ */
 bool BitcoinExchange::parsefloat(const std::string &s, float &o)
 {
     // check for junk using istringstream
@@ -140,8 +176,16 @@ bool BitcoinExchange::parsefloat(const std::string &s, float &o)
     return true;
 }
 
-// finds the rate that matches the date, or the most recent before the date
-// returns a const iterator to _rates
+/**
+ * Find the applicable rate for a given date string.
+ * Finds an exact match or the most recent date earlier than the requested date.
+ *
+ * If the requested date is earlier than any available rate, returns _rates.end().
+ * If the requested date is later than all entries, returns iterator to the last element.
+ *
+ * @param {const std::string&} date - "YYYY-MM-DD" date to query
+ * @return {std::map<std::string,float>::const_iterator} iterator to matching or closest prior rate, or _rates.end()
+ */
 std::map<std::string, float>::const_iterator BitcoinExchange::findValidRate(const std::string &date) const
 {
     // binary search on the ordered map (O(log n))
@@ -170,13 +214,24 @@ std::map<std::string, float>::const_iterator BitcoinExchange::findValidRate(cons
     return it;
 }
 
+/**
+ * Process an input file of "date | value" lines.
+ * For each valid input line:
+ *  - validates date and value
+ *  - finds the applicable historical rate
+ *  - computes value * rate and prints "date => value = result"
+ *
+ * Errors and malformed lines are reported to stdout with an explanatory message.
+ *
+ * @param {const std::string&} path - path to the input file to process
+ */
 void BitcoinExchange::processFile(const std::string &path) const
 {
     /* date | value */
     std::ifstream in(path.c_str());
     if (!in)
     {
-        std::cout << "Error: could not open file.\n";
+        std::cerr << "Error: could not open file.\n";
         return;
     }
     std::string tmp;
@@ -197,7 +252,7 @@ void BitcoinExchange::processFile(const std::string &path) const
         std::string::size_type bar = line.find('|');
         if (bar == std::string::npos)
         {
-            std::cout << "Error: bad input => " << tmp << std::endl;
+            std::cerr << "Error: bad input => " << tmp << std::endl;
             continue;
         }
         date = trim(line.substr(0, bar));
@@ -205,22 +260,22 @@ void BitcoinExchange::processFile(const std::string &path) const
 
         if (!isValidDate(date))
         {
-            std::cout << "Error: bad input => " << tmp << std::endl;
+            std::cerr << "Error: bad input => " << tmp << std::endl;
             continue;
         }
         if (!parsefloat(s_value, value))
         {
-            std::cout << "Error: bad input => " << tmp << std::endl;
+            std::cerr << "Error: bad input => " << tmp << std::endl;
             continue;
         }
         if (value < 0.0)
         {
-            std::cout << "Error: not a positive number." << std::endl;
+            std::cerr << "Error: not a positive number." << std::endl;
             continue;
         }
         if (value > 1000.0)
         {
-            std::cout << "Error: too large a number." << std::endl;
+            std::cerr << "Error: too large a number." << std::endl;
             continue;
         }
 
@@ -229,7 +284,7 @@ void BitcoinExchange::processFile(const std::string &path) const
 
         if (it == _rates.end())
         {
-            std::cout << "Error: bad input => " << tmp << std::endl;
+            std::cerr << "Error: bad input => " << tmp << std::endl;
             continue;
         }
 
